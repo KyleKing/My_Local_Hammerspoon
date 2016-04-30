@@ -31,6 +31,8 @@ function batt_watch_low()
         "GIVE ME POWER! Only %d%% left!", pct_int))
     end
     pct_prev = pct_int
+  else
+    hs.alert.show("GIVE ME POWER! Running Low!")
   end
 end
 hs.battery.watcher.new(batt_watch_low):start()
