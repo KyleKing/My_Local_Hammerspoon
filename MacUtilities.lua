@@ -26,9 +26,25 @@ function batt_watch_low()
   pct = hs.battery.percentage()
   pct_int = math.floor(pct)
   if type(pct_int) == 'number' then
-    if pct_int ~= pct_prev and not hs.battery.isCharging() and pct_int < 30 then
+    if pct_int ~= pct_prev and not hs.battery.isCharging() and pct_int < 50 then
       hs.alert.show(string.format(
-        "GIVE ME POWER! Only %d%% left!", pct_int))
+      	"I need NUTELLA! %d%% left!", pct_int))
+      if pct_int < 30 then
+        hs.alert.show(string.format(
+        	"ABOUT TIME TO CARE ABOUT ME! %d%% left!", pct_int))
+      end
+      if pct_int < 20 then
+        hs.alert.show(string.format(
+          "Prepare for war! %d%% left!", pct_int))
+      end
+      if pct_int < 15 then
+        hs.alert.show(string.format(
+          "This ain't funny. %d%% left!", pct_int))
+      end
+      if pct_int < 10 then
+        hs.alert.show(string.format(
+          "RED ALERT! %d%% left!", pct_int))
+      end
     end
     pct_prev = pct_int
   else
@@ -41,7 +57,13 @@ hs.battery.watcher.new(batt_watch_low):start()
 function spotify_track()
   -- hs.spotify.displayCurrentTrack()
   local track = hs.spotify.getCurrentTrack()
-  hs.alert.show(track)
+  if Utility.isEmpty(track) then
+    volume_prev = hs.audiodevice.defaultOutputDevice():volume()
+    mute_ads()
+  else
+    hs.alert.show(track)
+  end
+
   local artist = hs.spotify.getCurrentArtist()
   if Utility.isEmpty(artist) then
     volume_prev = hs.audiodevice.defaultOutputDevice():volume()
@@ -88,19 +110,27 @@ hs.hotkey.bind(Utility.mash, "j", function ()
 end)
 
 -- Show or hide dot files
-function Mac.hideFiles()
+function hideFiles()
   -- alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
   ok,result = hs.applescript('do shell script "defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app"')
   hs.alert.show("Files Hid, like blazing sun hides enemy")
 end
-function Mac.showFiles()
+function showFiles()
   -- alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
   ok,result = hs.applescript('do shell script "defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app"')
   hs.alert.show("Files Shown, like bright moon deceives enemy")
 end
 
-function Mac.blueutil(value)
-  os.execute('/usr/local/bin/blueutil '..value)
+function blueutil(value)
+  if value then
+    os.execute('/usr/local/bin/blueutil '..value)
+    local bashResult = Utility.capture('/usr/local/bin/blueutil status', false)
+    hs.alert.show('Bluetooth '..bashResult)
+  else
+    hs.alert.show("Need value, either 'on' or 'off'")
+  end
 end
+
+-- TODO: 'Mac.' isn't working for HS functions/Alfred function...
 
 return Mac

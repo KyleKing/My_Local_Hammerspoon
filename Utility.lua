@@ -62,4 +62,16 @@ function Utility.Brightness(key, brightness)
 	-- until count == 16
 end
 
+-- Source: http://stackoverflow.com/a/326715/3219667
+function Utility.capture(cmd, raw)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  if raw then return s end
+  s = string.gsub(s, '^%s+', '')
+  s = string.gsub(s, '%s+$', '')
+  s = string.gsub(s, '[\n\r]+', ' ')
+  return s
+end
+
 return Utility

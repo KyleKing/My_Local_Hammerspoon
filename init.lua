@@ -57,8 +57,20 @@ function AlfredFunctions()
 			["icon"]='/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/BookmarkIcon.icns'
 		},
 		{
+			["func_name"]="blueutil",
+			["description"]="Toggle Bluetooth on/off",
+			["icon"]='icon.png',
+			["arg"]='string'
+		},
+		{
 			["func_name"]="ToggleInternetSharing",
 			["description"]="Toggle Internet Sharing, need off or on",
+			["icon"]='icon.png',
+			["arg"]='string'
+		},
+		{
+			["func_name"]="wintile",
+			["description"]="Manually Tile Windows (12 units)",
 			["icon"]='icon.png',
 			["arg"]='string'
 		},
