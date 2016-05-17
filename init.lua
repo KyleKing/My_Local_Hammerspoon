@@ -33,51 +33,53 @@ if ( hs.ipc.cliStatus() == false ) then
 end
 -- Call by typing /usr/local/bin/hs -c 'hideFiles()' or just $ hs -c 'hideFiles()'
 
+local dir = 'imgs/'
+
 function AlfredFunctions()
 	local sometable = {
 		{
 			["func_name"]="AlertUser",
 			["description"]="Custom Notification",
-			["icon"]='icon.png',
+			["icon"]=dir..'alert.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="manualReload",
 			["description"]="Reloads Hammerspoon",
-			["icon"]='icon.png'
+			["icon"]=dir..'reload.png'
 		},
 		{
 			["func_name"]="hideFiles",
 			["description"]="Hides dot files",
-			["icon"]='icon.png'
+			["icon"]=dir..'hide.png'
 		},
 		{
 			["func_name"]="showFiles",
 			["description"]="Shows dot files",
-			["icon"]='/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/BookmarkIcon.icns'
+			["icon"]=dir..'show.png'
 		},
 		{
 			["func_name"]="blueutil",
 			["description"]="Toggle Bluetooth on/off",
-			["icon"]='icon.png',
+			["icon"]=dir..'bluetooth.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="ToggleInternetSharing",
 			["description"]="Toggle Internet Sharing, need off or on",
-			["icon"]='icon.png',
+			["icon"]=dir..'internet.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="wintile",
 			["description"]="Manually Tile Windows (12 units)",
-			["icon"]='icon.png',
+			["icon"]=dir..'tile.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="Load_Order",
 			["description"]="Reset List of Applications",
-			["icon"]='icon.png'
+			["icon"]=dir..'order.png'
 		}
 	};
 	Utility.printJSON(sometable)
