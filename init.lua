@@ -15,7 +15,9 @@ hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pastebo
 -- Dash should always be open and is really only closed when computer first opens
 -- So run load order script to open set of helpers on HS startup
 function Load_Order()
-	os.execute('osascript ~/Library/Services/load_order.scpt')
+	-- os.execute('osascript ~/Library/Services/load_order.scpt')
+	local file = 'Hammerspoon/compiled/load_order.scpt'
+	os.execute('osascript '..Utility.scptPath..file)
 end
 
 local app = hs.appfinder.appFromName('Dash')

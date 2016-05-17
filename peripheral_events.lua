@@ -45,11 +45,12 @@ usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
 usbWatcher:start()
 
 function ToggleInternetSharing(setting)
+	-- Where setting is 'on' or 'off'
 	if setting then
-		-- Where setting is 'on' or 'off'
-		os.execute('osascript ~/Library/Services/InternetSharing.scpt '..setting)
+		local file = 'Hammerspoon/compiled/InternetSharing.scpt'
+		os.execute('osascript '..Utility.scptPath..file..' '..setting)
 	else
-    hs.alert.show("Need value, either 'on' or 'off'")
+    hs.alert.show("Needs value, either 'on' or 'off'")
 	end
 end
 
