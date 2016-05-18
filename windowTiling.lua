@@ -79,7 +79,7 @@ function Tiling.processWinTile( raw, scenario )
 		if scenario == 1 then
  			AdjustWindow(0, nil, input/12, nil)
 		elseif scenario == 2 then
- 			AdjustWindow(input/12, nil, (12-input)/12, nil)
+ 			AdjustWindow((12-input)/12, nil, input/12, nil)
 		elseif scenario == 3 then
  			AdjustWindow(nil, 0, nil, input/12)
 		elseif scenario == 4 then

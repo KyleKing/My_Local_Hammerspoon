@@ -22,28 +22,28 @@ local Mac = {}
 -- Basic Battery Watcher (Three additional examples are also available
 -- (example code from: https://github.com/Hammerspoon/hammerspoon/issues/166#issuecomment-68320784)
 pct_prev = nil
+
+function BattAlert(str, val)
+  hs.alert.show(string.format(str, val))
+end
+
 function batt_watch_low()
   pct = hs.battery.percentage()
   pct_int = math.floor(pct)
   if type(pct_int) == 'number' then
     if pct_int ~= pct_prev and not hs.battery.isCharging() and pct_int < 50 then
-      hs.alert.show(string.format(
-      	"I need NUTELLA! %d%% left!", pct_int))
+      BattAlert("I need NUTELLA! %d%% left!", pct_int)
       if pct_int < 30 then
-        hs.alert.show(string.format(
-        	"ABOUT TIME TO CARE ABOUT ME! %d%% left!", pct_int))
+        BattAlert("ABOUT TIME TO CARE ABOUT ME! %d%% left!", pct_int)
       end
       if pct_int < 20 then
-        hs.alert.show(string.format(
-          "Prepare for war! %d%% left!", pct_int))
+        BattAlert("Prepare for war! %d%% left!", pct_int)
       end
       if pct_int < 15 then
-        hs.alert.show(string.format(
-          "This ain't funny. %d%% left!", pct_int))
+        BattAlert("This ain't funny. %d%% left!", pct_int)
       end
       if pct_int < 10 then
-        hs.alert.show(string.format(
-          "RED ALERT! %d%% left!", pct_int))
+        BattAlert("RED ALERT! %d%% left!", pct_int)
       end
     end
     pct_prev = pct_int
@@ -91,18 +91,27 @@ function mute_ads()
   end
 end
 
--- If iTunes or Chrome (STreamkeys) are open, the play pause buttons
+-- -- Demonstration of passing a function as an argument
+-- Note: do not include the () of the function
+function checkSpotify( func )
+  if hs.spotify.isRunning() then
+    func()
+    show_track_timer = hs.timer.doAfter(1, function() spotify_track() end)
+  else
+    hs.alert.show('Spotify is not open')
+  end
+end
+
+-- If iTunes or Chrome (Streamkeys) are open, the play pause buttons
 -- can conflict. Force Spotify to play using a set of override keys
 hs.hotkey.bind(Utility.mash, 'b', function ()
-	hs.spotify.previous()
-  show_track_timer = hs.timer.doAfter(1, function() spotify_track() end)
+  checkSpotify(hs.spotify.previous)
 end)
 hs.hotkey.bind(Utility.mash, 'n', function ()
-	hs.spotify.playpause()
+  checkSpotify(hs.spotify.playpause)
 end)
 hs.hotkey.bind(Utility.mash, 'm', function ()
-  hs.spotify.next()
-  show_track_timer = hs.timer.doAfter(1, function() spotify_track() end)
+  checkSpotify(hs.spotify.next)
 end)
 -- Custom display track/artist:
 hs.hotkey.bind(Utility.mash, "j", function ()
@@ -110,14 +119,14 @@ hs.hotkey.bind(Utility.mash, "j", function ()
 end)
 
 -- Show or hide dot files
+local DotCMD1 = 'do shell script "defaults write com.apple.finder AppleShowAllFiles '
+local DotCMD2 = '; killall Finder /System/Library/CoreServices/Finder.app"'
 function hideFiles()
-  -- alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-  ok,result = hs.applescript('do shell script "defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app"')
+  ok,result = hs.applescript( DotCMD1..'NO'..DotCMD2 )
   hs.alert.show("Files Hid, like blazing sun hides enemy")
 end
 function showFiles()
-  -- alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-  ok,result = hs.applescript('do shell script "defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app"')
+  ok,result = hs.applescript( DotCMD1..'YES'..DotCMD2 )
   hs.alert.show("Files Shown, like bright moon deceives enemy")
 end
 
