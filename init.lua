@@ -25,6 +25,26 @@ if app == nill then
 	Load_Order()
 end
 
+------- what to do with this -------
+-- Automatically Recompile Applescript Files
+function reloadApplescript(files)
+		doReload = false
+		for _,file in pairs(files) do
+				if file:sub(-12) == ".applescript" then
+						doReload = true
+				end
+		end
+		if doReload then
+				AlertUser('Reloaded Applescript')
+				y = os.execute('cd /Users/kyleking/Developer/My-Programming-Sketchbook/AppleScripts; bash compile.sh')
+				-- y = os.execute('python '..Utility.scptPath..'loader.py')
+				-- y = os.execute('bash '..Utility.scptPath..'sleep.sh')
+				print(y)
+		end
+end
+hs.pathwatcher.new(Utility.scptPath, reloadApplescript):start()
+------- what to do with this -------
+
 ----------------------------------------------------
 -- Custom Alfred Triggers
 --------------------------------------------------

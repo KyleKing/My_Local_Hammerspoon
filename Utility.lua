@@ -7,7 +7,7 @@ local json = require('dkjson')
 local Utility = {}
 
 Utility.mash = {"ctrl", "alt", "cmd"}
-Utility.scptPath = '~/Developer/My-Programming-Sketchbook/AppleScripts/'
+Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
 
 function Utility.isEmpty(variable)
   return variable == nil or variable == ''

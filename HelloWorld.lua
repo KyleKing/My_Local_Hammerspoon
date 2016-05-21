@@ -6,6 +6,7 @@ local Utility = require("Utility")
 
 function AlertUser(term)
   hs.alert.show(term)
+  print("AlertUser: "..term)
 end
 -- AlertUser("it works")
 
