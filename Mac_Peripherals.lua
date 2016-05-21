@@ -3,7 +3,12 @@ local Tiling = require("windowTiling")
 
 print('')
 print('>> Loading Peripheral Events for:')
-print('		Proscope and Ethernet USBWatching')
+print('		Proscope USB Microscope')
+print('		Ethernet USBWatching')
+
+--------------------------------------------------
+-- USB Watcher Script
+--------------------------------------------------
 
 -- USB Watcher for Proscope Application
 local usbWatcher = nil
@@ -43,20 +48,3 @@ function usbDeviceCallback(data)
 end
 usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
 usbWatcher:start()
-
-function ToggleInternetSharing(setting)
-	-- Where setting is 'on' or 'off'
-	if setting then
-		local file = 'Hammerspoon/compiled/InternetSharing.scpt'
-		os.execute('osascript '..Utility.scptPath..file..' '..setting)
-	else
-    hs.alert.show("Needs value, either 'on' or 'off'")
-	end
-end
-
--- -- For testing
--- hs.hotkey.bind(Utility.mash, "t", function()
--- 	print('Testing!')
-
--- end)
-

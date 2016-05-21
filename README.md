@@ -7,7 +7,7 @@ I've been working on using Alfred to trigger functions, to learn more about my p
 ## Rundown of the included Files
 
 - ```HelloWorld.lua```: My notes as I followed the getting started guide
-- ```MacUtilities.lua```: Useful utilities for battery watching, spotify, and dot files, with more to come
+- ```Mac_*.lua```: Useful utilities for battery watching, spotify, and dot files, with more to come
 - ```Utility.lua```: Set of functions used across this app, such as printing proper JSON
 	- ```dkjson.lua```: module used within ```Utility.lua```
 - ```init.lua```: An index file that triggers successive files to be run and includes the AlfredFunction()

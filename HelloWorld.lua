@@ -1,16 +1,10 @@
---------------------------------------------------
--- Basic Guide (http://www.hammerspoon.org/go/)
---------------------------------------------------
-
 local Utility = require("Utility")
 
-function AlertUser(term)
-  hs.alert.show(term)
-  print("AlertUser: "..term)
-end
--- AlertUser("it works")
+--------------------------------------------------------------------
+-- Following along the Basic Guide (http://www.hammerspoon.org/go/)
+--------------------------------------------------------------------
 
--- -- Basic Hello World:
+-- -- Rul Basic Hello World:
 -- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "W", function()
 --   hs.alert.show("Hello World!")
 -- end)
@@ -20,30 +14,20 @@ end
 --   hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
 -- end)
 
--- Reload Configuration with Shortcut
-function manualReload()
-  hs.reload()
+-- -- For testing
+-- hs.hotkey.bind(Utility.mash, "t", function()
+-- 	print('Testing!')
+-- end)
+
+function AlertUser(term)
+  hs.alert.show(term)
+  print("AlertUser: "..term)
 end
-hs.hotkey.bind(Utility.mash, "r", manualReload)
+-- AlertUser("it works")
 
--- Automatically Reload Configuration:
-function reloadConfig(files)
-		doReload = false
-		for _,file in pairs(files) do
-				if file:sub(-4) == ".lua" then
-						doReload = true
-				end
-		end
-		if doReload then
-				hs.reload()
-		end
-end
-hs.pathwatcher.new(os.getenv("HOME").."/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Config loaded")
+----------------------------------------------------
+-- Other
+--------------------------------------------------
 
-
---
---
--- Good example on interacting with a menu item in Safari to map to a shortcut
---
---
+-- Force paste - good for Nylas/password entry on websites
+hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
