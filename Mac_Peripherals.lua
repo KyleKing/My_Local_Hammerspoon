@@ -1,10 +1,10 @@
 local Utility = require("Utility")
 local Tiling = require("windowTiling")
 
-print('')
-print('>> Loading Peripheral Events for:')
-print('		Proscope USB Microscope')
-print('		Ethernet USBWatching')
+initLog.d('')
+initLog.d('>> Loading Peripheral Events for:')
+initLog.d('		Proscope USB Microscope')
+initLog.d('		Ethernet USBWatching')
 
 --------------------------------------------------
 -- USB Watcher Script

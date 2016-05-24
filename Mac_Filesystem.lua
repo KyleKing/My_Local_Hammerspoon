@@ -1,10 +1,10 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Filesystem for:')
-print('   Reload Hammerspoon on File Change')
-print('   Toggle Dot Files')
-print('   Compile Applescript Files')
+initLog.d('')
+initLog.d('>> Loading Mac Filesystem for:')
+initLog.d('   Reload Hammerspoon on File Change')
+initLog.d('   Toggle Dot Files')
+initLog.d('   Compile Applescript Files')
 
 ----------------------------------------------------
 -- Reload Hammerspoon Configuration

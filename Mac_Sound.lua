@@ -1,11 +1,13 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Sound for:')
-print('   Spotify')
+initLog.d('')
+initLog.d('>> Loading Mac Sound for:')
+initLog.d('   Spotify')
+initLog.d('   StreamKeys')
+initLog.d('   Headphone Watcher')
 
 --------------------------------------------------
--- Spotify utilities
+-- Spotify and Soundcloud utilities
 --------------------------------------------------
 
 -- Display current track name and artist

@@ -1,8 +1,8 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Software for:')
-print('   Load Order')
+initLog.d('')
+initLog.d('>> Loading Mac Software for:')
+initLog.d('   Load Order')
 
 --------------------------------------------------
 -- Load Order Function

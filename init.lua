@@ -1,6 +1,9 @@
 print('')
 print('>> STARTED LOADING HS Profile')
 print('')
+hs.hotkey.setLogLevel(0)
+initLog = hs.logger.new('LoadNotes')
+-- initLog.setLogLevel(5) -- [0,5]
 
 -- Confirm complete HS installation
 if ( hs.ipc.cliStatus() == false ) then
@@ -81,6 +84,7 @@ function AlfredFunctions()
 			["icon"]=dir..'order.png'
 		}
 	};
+	print('') -- blank line between tables
 	Utility.printJSON(sometable)
 end
 AlfredFunctions()

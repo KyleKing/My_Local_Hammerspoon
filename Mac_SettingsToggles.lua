@@ -1,10 +1,10 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Settings Toggles for:')
-print('   Bluetooth')
-print('   Do Not Disturb')
-print('   Internet Sharing')
+initLog.d('')
+initLog.d('>> Loading Mac Settings Toggles for:')
+initLog.d('   Bluetooth')
+initLog.d('   Do Not Disturb')
+initLog.d('   Internet Sharing')
 
 --------------------------------------------------
 -- Settings utilities

@@ -1,8 +1,8 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Hardware for:')
-print('   Battery Watcher')
+initLog.d('')
+initLog.d('>> Loading Mac Hardware for:')
+initLog.d('   Battery Watcher')
 
 --------------------------------------------------
 -- Battery Status Watcher
@@ -13,10 +13,13 @@ print('   Battery Watcher')
 pct_prev = nil
 
 function BattAlert(str, val)
-  hs.alert.show(string.format(str, val))
+  local message = string.format(str, val)
+  hs.notify.new({title="Battery Watcher", informativeText=message}):send()
+  hs.alert.show(message)
 end
 
 function batt_watch_low()
+  -- BattAlert("WATCHING %d%% left!", 12)
   pct = hs.battery.percentage()
   pct_int = math.floor(pct)
   if type(pct_int) == 'number' then

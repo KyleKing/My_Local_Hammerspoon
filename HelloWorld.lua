@@ -31,3 +31,6 @@ end
 
 -- Force paste - good for Nylas/password entry on websites
 hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
+-- -- Send iMessages/SMS
+-- hs.messages.iMessage("4438458414", "Hey!")
+-- -- hs.messages.SMS("+1234567890", "Hey, you don't have an iPhone, but you should still come for a coffee")

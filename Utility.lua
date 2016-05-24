@@ -1,5 +1,8 @@
 local json = require('dkjson')
 
+initLog.d('')
+initLog.d('>> Loading Utility Functions')
+
 --------------------------------------------------
 -- Global Utility Functions
 --------------------------------------------------

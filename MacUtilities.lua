@@ -1,8 +1,8 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Mac Utilities for:')
-print('   None')
+initLog.d('')
+initLog.d('>> Loading Mac Utilities for:')
+initLog.d('   None')
 
 --------------------------------------------------
 -- Macbook utilities

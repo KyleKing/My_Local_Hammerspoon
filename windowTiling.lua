@@ -1,8 +1,8 @@
 local Utility = require("Utility")
 
-print('')
-print('>> Loading Window Tiling for:')
-print('   mash + Y,U,I and 4 arrow keys')
+initLog.d('')
+initLog.d('>> Loading Window Tiling for:')
+initLog.d('   mash + Y,U,I and 4 arrow keys')
 
 --------------------------------------------------
 -- Window Tiling
