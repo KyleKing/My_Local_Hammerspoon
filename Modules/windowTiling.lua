@@ -1,4 +1,4 @@
-local Utility = require("Utility")
+local Utility = require("./Modules/Utility")
 
 initLog.d('')
 initLog.d('>> Loading Window Tiling for:')

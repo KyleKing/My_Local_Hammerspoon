@@ -1,4 +1,4 @@
-local Utility = require("Utility")
+local Utility = require("./Modules/Utility")
 
 --------------------------------------------------------------------
 -- Following along the Basic Guide (http://www.hammerspoon.org/go/)

@@ -13,17 +13,17 @@ end
 -- Use with /usr/local/bin/hs -c 'hideFiles()' or just $ hs -c 'hideFiles()'
 
 -- Loaded files and functions:
-dofile("HelloWorld.lua")
-local Utility = require("Utility")
-local Tiling = require("windowTiling")
-dofile("Mac_Filesystem.lua")
-dofile("Mac_Hardware.lua")
-dofile("Mac_Peripherals.lua")
-dofile("Mac_SettingsToggles.lua")
-dofile("Mac_Software.lua")
-dofile("Mac_Sound.lua")
-local Mac = require("MacUtilities")
-local WIP = require("z_In Progress")
+dofile("./Modules/HelloWorld.lua")
+local Utility = require("./Modules/Utility")
+local Tiling = require("./Modules/windowTiling")
+dofile("./Modules/Mac_Filesystem.lua")
+dofile("./Modules/Mac_Hardware.lua")
+dofile("./Modules/Mac_Peripherals.lua")
+dofile("./Modules/Mac_SettingsToggles.lua")
+dofile("./Modules/Mac_Software.lua")
+dofile("./Modules/Mac_Sound.lua")
+local Mac = require("./Modules/MacUtilities")
+local WIP = require("./Other/z_In Progress")
 
 ----------------------------------------------------
 -- Custom Alfred Triggers

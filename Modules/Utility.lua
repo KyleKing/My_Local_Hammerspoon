@@ -1,4 +1,4 @@
-local json = require('dkjson')
+local json = require("./Modules/dkjson")
 
 initLog.d('')
 initLog.d('>> Loading Utility Functions')

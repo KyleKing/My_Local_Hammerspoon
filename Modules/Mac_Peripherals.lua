@@ -1,5 +1,5 @@
-local Utility = require("Utility")
-local Tiling = require("windowTiling")
+local Utility = require("./Modules/Utility")
+local Tiling = require("./Modules/windowTiling")
 
 initLog.d('')
 initLog.d('>> Loading Peripheral Events for:')
