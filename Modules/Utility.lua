@@ -26,20 +26,32 @@ end
 
 -- Useful to receive input
 function Utility.readJSON(str)
-	local test_str = [[
-	{
-	  "numbers": [ 2, 3, -20.23e+2, -4 ],
-	  "currency": "\u20AC"
-	}
-	]]
-	local obj, pos, err = json.decode (test_str, 1, nil)
+	-- local test_str = [[
+	-- {
+	--   "numbers": [ 2, 3, -20.23e+2, -4 ],
+	--   "currency": "\u20AC"
+	-- }
+	-- ]]
+	-- local test_str = [[
+	-- {
+	-- 	"song":"Bang Harder (ft. Shyheim & Ill By Instinct) in Lyrical Abrasion",
+	-- 	"artist":"Trails"
+	-- }
+	-- ]]
+	-- local obj, pos, err = json.decode(test_str, 1, nil)
+	-- Actual functions:
+	-- AlertUser(str)
+	local obj, pos, err = json.decode(str, 1, nil)
 	if err then
 	  print ("Error:", err)
+	  return false, false
 	else
-	  print ("currency", obj.currency)
-	  for i = 1,#obj.numbers do
-	    print (i, obj.numbers[i])
-	  end
+	  print ("song", obj.song)
+	  print ("artist", obj.artist)
+	  -- for i = 1,#obj.numbers do
+	  --   print (i, obj.numbers[i])
+	  -- end
+	 	return obj.song, obj.artist
 	end
 end
 
