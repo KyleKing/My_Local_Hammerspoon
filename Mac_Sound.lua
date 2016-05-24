@@ -4,11 +4,20 @@ initLog.d('')
 initLog.d('>> Loading Mac Sound for:')
 initLog.d('   Spotify')
 initLog.d('   StreamKeys')
-initLog.d('   Headphone Watcher')
 
 --------------------------------------------------
 -- Spotify and Soundcloud utilities
 --------------------------------------------------
+
+-- LINK: https://github.com/Hammerspoon/hammerspoon/issues/529#issuecomment-136679247
+-- Yes, that must be either an app with no visible windows, or a hidden app (cmd-h).
+-- The snippet below will let you know (by calling callbackNoWindows) when AppName has no more visible windows for whatever reason (app hidden, all windows closed, all windows minimised, app closed):
+-- function appRunning(windows) end
+-- function appNotRunning()
+--   if hs.application.find('Boom') then print('Boom is still running')
+--   else print('Boom has been closed') end
+-- end
+-- hs.window.filter.new('Boom'):notify(appRunning,appNotRunning)
 
 -- Display current track name and artist
 function spotify_track()
@@ -45,7 +54,7 @@ end
 function mute_ads()
   local artist = hs.spotify.getCurrentArtist()
   if Utility.isEmpty(artist) then
-    -- hs.audiodevice.defaultOutputDevice():setVolume(0)
+    hs.audiodevice.defaultOutputDevice():setVolume(0)
     hs.audiodevice.defaultOutputDevice():setMuted(true)
     -- hs.alert.show('MUTING')
     mute_timer = hs.timer.doAfter(5, function() mute_ads() end)
@@ -53,10 +62,11 @@ function mute_ads()
     if not type(volume_prev) == 'number' then
       volume_prev = 20
     end
-    -- hs.audiodevice.defaultOutputDevice():setVolume(volume_prev)
+    hs.audiodevice.defaultOutputDevice():setVolume(volume_prev)
     hs.audiodevice.defaultOutputDevice():setMuted(false)
-    hs.alert.show('UN-muting')
+    hs.alert.show('𝄆 ♩ ♪ ♫ ♬ BACK TO THE MUSIC! ♬ ♫ ♪ ♩ 𝄇')
   end
+  preventBoomAudio()
 end
 
 -- -- Demonstration of passing a function as an argument
@@ -85,34 +95,3 @@ end)
 hs.hotkey.bind(Utility.mash, "j", function ()
   checkSpotify(spotify_track, streamkeysPlaypause)
 end)
-
---------------------------------------------------
--- Headphone Connection Watcher
---------------------------------------------------
-
-audLog = hs.logger.new('audWatcher')
--- audLog.setLogLevel(5) -- [0,5]
-
--- Per-device watcher to detect headphones in/out
-function audioDeviceWatch(dev_uid, event_name, event_scope, event_element)
-  audLog.df("AudioDeviceWatch args: %s, %s, %s, %s", dev_uid, event_name, event_scope, event_element)
-  aud = hs.audiodevice.findDeviceByUID(dev_uid)
-  if event_name == 'jack' then
-    if aud:jackConnected() then
-      hs.alert.show("Auxiliary Device Connected")
-      hs.audiodevice.defaultOutputDevice():setMuted(false)
-      if aud:outputVolume() >= 40 then
-        hs.audiodevice.defaultOutputDevice():setVolume(30)
-      end
-    else
-      -- hs.alert.show("Auxiliary Device Disconnected")
-      hs.audiodevice.defaultOutputDevice():setMuted(true)
-    end
-  end
-end
-
--- Account for all audio devices (boom is second, but also bluetooth, airplay, etc.)
-for i,aud in ipairs(hs.audiodevice.allOutputDevices()) do
-  audwatch = aud:watcherCallback(audioDeviceWatch)
-  audwatch:watcherStart()
-end
