@@ -11,6 +11,7 @@ local Utility = {}
 
 Utility.mash = {"ctrl", "alt", "cmd"}
 Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
+Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/'
 
 function Utility.isEmpty(variable)
   return variable == nil or variable == ''
@@ -21,6 +22,25 @@ function Utility.printJSON(table)
 	local ConvertedJSON = json.encode(table)
 	-- Accounts for an array:
 	print('{"wrapper":'..ConvertedJSON.."}")
+end
+
+-- Useful to receive input
+function Utility.readJSON(str)
+	local test_str = [[
+	{
+	  "numbers": [ 2, 3, -20.23e+2, -4 ],
+	  "currency": "\u20AC"
+	}
+	]]
+	local obj, pos, err = json.decode (test_str, 1, nil)
+	if err then
+	  print ("Error:", err)
+	else
+	  print ("currency", obj.currency)
+	  for i = 1,#obj.numbers do
+	    print (i, obj.numbers[i])
+	  end
+	end
 end
 
 -- Useful for debugging:
@@ -68,6 +88,7 @@ end
 
 -- Source: http://stackoverflow.com/a/326715/3219667
 function Utility.capture(cmd, raw)
+	-- os.execute("/path/to/program")
   local f = assert(io.popen(cmd, 'r'))
   local s = assert(f:read('*a'))
   f:close()
@@ -76,6 +97,13 @@ function Utility.capture(cmd, raw)
   s = string.gsub(s, '%s+$', '')
   s = string.gsub(s, '[\n\r]+', ' ')
   return s
+end
+-- Source: http://stackoverflow.com/a/9676174/3219667
+function Utility.captureNEW(cmd)
+	local handle = io.popen(cmd)
+  local result = handle:read("*a")
+  handle:close()
+  return result
 end
 
 return Utility
