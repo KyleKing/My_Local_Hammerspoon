@@ -17,6 +17,13 @@ function Utility.isEmpty(variable)
   return variable == nil or variable == ''
 end
 
+function Utility.BattAlert(str, val)
+  local message = string.format(str, val)
+  hs.notify.new({title="Battery Watcher", informativeText=message}):send()
+  hs.alert.show(message)
+end
+
+
 -- Useful to send data from Hammerspoon to other applications
 function Utility.printJSON(table)
 	local ConvertedJSON = json.encode(table)

@@ -29,7 +29,8 @@ function reloadConfig(files)
     end
 end
 hs.pathwatcher.new(os.getenv("HOME").."/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Config loaded")
+-- FIXME: no notification appearing?
+Utility.BattAlert('HS Config Loaded', 1)
 
 --------------------------------------------------
 -- Other Filesystem utilities
@@ -57,9 +58,9 @@ function reloadApplescript(files)
     end
     if doReload then
         -- FIXME: Currently opens Safari whenever run?
-        AlertUser('Reloaded Applescript')
-        -- y = os.execute('cd  '..Utility.scptPath..'; bash compile.sh')
-        os.execute('cd  '..Utility.scptPath..'; python runScriptFrom.py')
+        hs.notify.new({title="HS", informativeText='Re-Compiled Applescript'}):send()
+        y = os.execute('cd  '..Utility.scptPath..'; bash compile.sh')
+        -- os.execute('cd  '..Utility.scptPath..'; python runScriptFrom.py')
     end
 end
 hs.pathwatcher.new(Utility.scptPath, reloadApplescript):start()
