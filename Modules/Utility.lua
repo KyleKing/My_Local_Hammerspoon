@@ -97,10 +97,10 @@ end
 function Utility.captureNEW(cmd)
 	local handle = io.popen(cmd)
   local result = handle:read("*a")
+  result = string.gsub(result, '[\n\r]+', ' ')
   handle:close()
   return result
 end
-
 
 ------------------------
 -- Manipulation of Files

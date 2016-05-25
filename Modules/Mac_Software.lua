@@ -22,8 +22,9 @@ end
 
 -- Control open/closed apps more easily than tweaking each app's settings
 function Load_Order()
-  local file = 'Hammerspoon/compiled/load_order.scpt'
-  os.execute('osascript '..Utility.scptPath..file)
+  local file = 'Hammerspoon/compiled/'
+  os.execute('osascript '..Utility.scptPath..file..'load_order.scpt')
+  os.execute('osascript '..Utility.scptPath..file..'load_safari_quitter.scpt')
   preventBoomAudio()
 end
 -- Dash should always be open and is really only closed when computer first opens

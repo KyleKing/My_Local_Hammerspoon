@@ -1,18 +1,6 @@
 local Utility = require("./Modules/Utility")
 local WIP = {}
 
-local file = './Other/test.md'
-local tContents = Utility.read_file(file, 'l')
-print(tContents)
-
--- Original: http://www.computercraft.info/forums2/index.php?/topic/2886-luahow-to-readwrite-certain-lines-in-files/
---Modify a specific line
-table.remove(tContents, 4) -- will remove line 3 so we can insert the new line 3
-table.insert(tContents, 4, "New Information") -- inserts the string "New Infomation" on line 3 in the table.
-print(tContents)
-
-Utility.write_file(file, tContents)
-
 --------------------------------------------------
 -- WIP
 --------------------------------------------------
