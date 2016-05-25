@@ -88,7 +88,3 @@ function AlfredFunctions()
 	Utility.printJSON(sometable)
 end
 AlfredFunctions()
-
--- Learn LUA quickly!
--- https://learnxinyminutes.com/docs/lua/
-

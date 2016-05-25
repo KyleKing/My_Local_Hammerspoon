@@ -24,34 +24,14 @@ function Utility.printJSON(table)
 	print('{"wrapper":'..ConvertedJSON.."}")
 end
 
--- Useful to receive input
+-- Useful to receive JSON stdin
+-- See example use in ./Modules/_Lua Examples.lua
 function Utility.readJSON(str)
-	-- local test_str = [[
-	-- {
-	--   "numbers": [ 2, 3, -20.23e+2, -4 ],
-	--   "currency": "\u20AC"
-	-- }
-	-- ]]
-	-- local test_str = [[
-	-- {
-	-- 	"song":"Bang Harder (ft. Shyheim & Ill By Instinct) in Lyrical Abrasion",
-	-- 	"artist":"Trails"
-	-- }
-	-- ]]
-	-- local obj, pos, err = json.decode(test_str, 1, nil)
-	-- Actual functions:
-	-- AlertUser(str)
 	local obj, pos, err = json.decode(str, 1, nil)
 	if err then
 	  print ("Error:", err)
 	  return false
 	else
-	  -- print ("song", obj.song)
-	  -- print ("artist", obj.artist)
-	  -- for i = 1,#obj.numbers do
-	  --   print (i, obj.numbers[i])
-	  -- end
-	 	-- return obj.song, obj.artist
 	 	return obj
 	end
 end
@@ -83,10 +63,12 @@ function Utility.printTablesInTables(table)
 	end
 end
 
+-- Applescript method of keypress events
 function Utility.PressKey(key)
 	hs.applescript('tell application "System Events" to key code '..key)
 end
 
+-- Work in progress, didn't work as hoped
 function Utility.Brightness(key, brightness)
 	hs.brightness.set(brightness)
 	-- Turns out keyboard brightness is hard to set because no dedicated key code
@@ -111,12 +93,86 @@ function Utility.capture(cmd, raw)
   s = string.gsub(s, '[\n\r]+', ' ')
   return s
 end
--- Source: http://stackoverflow.com/a/9676174/3219667
+-- Original: http://stackoverflow.com/a/9676174/3219667
 function Utility.captureNEW(cmd)
 	local handle = io.popen(cmd)
   local result = handle:read("*a")
   handle:close()
   return result
+end
+
+
+------------------------
+-- Manipulation of Files
+------------------------
+-- Original: http://stackoverflow.com/a/11204889/3219667
+-- Even more originally from: http://lua-users.org/wiki/FileInputOutput
+-- Original: http://stackoverflow.com/a/25076090/3219667
+
+-- See if the file exists
+function Utility.file_exists(file)
+  local f = io.open(file, "rb")
+  if f then f:close() end
+  return f ~= nil
+end
+
+function Utility.read_file(file, type)
+	-- Returns an empty list/table if the file does not exist
+  if not Utility.file_exists(file) then return {} end
+
+  -- type = l ('lines')
+  -- Read the file line by line and return a table of lines
+  if type == 'l' then
+	  lines = {}
+	  for line in io.lines(file) do
+	    lines[#lines + 1] = line
+	  end
+  	return lines
+
+  -- type = a ('all')
+  -- Alternatively, read the entire file at once
+  elseif type == 'a' then
+		local f = io.open('./Other/test.md', "r") -- read mode (r)
+		local content = f:read("*a") -- *a or *all - reads whole file
+		f:close()
+		return content
+
+	else
+		error('Need type option of "a" (all) or "l" lines')
+		return {}
+	end
+end
+
+function Utility.write_file(file, content)
+  -- Validate inputs
+  if not Utility.file_exists(file) then return false end
+  if Utility.isEmpty(content) then return false end
+	-- Write to file
+	local sContent = Utility.serialize(content)
+	-- print(sContent)
+	local f = io.open(file, "w")
+	f:write(sContent)
+	f:close()
+	return true
+end
+
+-- Serialize a Lua array with new line ("\n") delimiters
+function Utility.serialize( inputTable )
+	local serialString = ''
+	for i,str in pairs(inputTable) do
+	  serialString = serialString..str.."\n"
+	end
+	return serialString
+end
+
+-- Try converting a line to a number
+function Utility.str_to_num(str)
+	local n = tonumber(str)
+	if n == nil then
+	  error(line .. " is not a valid number")
+	else
+	  return n
+	end
 end
 
 return Utility
