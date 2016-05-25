@@ -44,14 +44,15 @@ function Utility.readJSON(str)
 	local obj, pos, err = json.decode(str, 1, nil)
 	if err then
 	  print ("Error:", err)
-	  return false, false
+	  return false
 	else
-	  print ("song", obj.song)
-	  print ("artist", obj.artist)
+	  -- print ("song", obj.song)
+	  -- print ("artist", obj.artist)
 	  -- for i = 1,#obj.numbers do
 	  --   print (i, obj.numbers[i])
 	  -- end
-	 	return obj.song, obj.artist
+	 	-- return obj.song, obj.artist
+	 	return obj
 	end
 end
 

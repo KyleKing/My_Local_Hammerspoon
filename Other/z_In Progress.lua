@@ -1,6 +1,87 @@
 local Utility = require("./Modules/Utility")
 local WIP = {}
 
+
+-- Original: http://stackoverflow.com/a/11204889/3219667
+-- Even more originally from: http://lua-users.org/wiki/FileInputOutput
+
+-- see if the file exists
+function file_exists(file)
+  local f = io.open(file, "rb")
+  if f then f:close() end
+  return f ~= nil
+end
+
+-- get all lines from a file, returns an empty
+-- list/table if the file does not exist
+function lines_from(file)
+  if not file_exists(file) then return {} end
+  lines = {}
+  for line in io.lines(file) do
+    lines[#lines + 1] = line
+  end
+  return lines
+end
+
+-- tests the functions above
+local file = './Other/stats.md'
+local lines = lines_from(file)
+-- AlertUser(lines[2])
+-- AlertUser(lines[4])
+n = tonumber(lines[4])   -- try to convert it to a number
+if n == nil then
+  error(line .. " is not a valid number")
+else
+  print("** n is a valid number and n*2 = "..n*2)
+end
+
+-- print all line numbers and their contents
+for k,v in pairs(lines) do
+  print('line['..k..']: '..v)
+end
+
+-- -- notes:
+-- file = io.open('./Other/test.md', "a")
+-- print(file)
+-- file:write("hello", "\n")
+-- file:write("hello", "\n")
+
+-- Original: http://stackoverflow.com/a/25076090/3219667
+--
+--  Read the file
+--
+local f = io.open('./Other/test.md', "r")
+local content = f:read("*a")
+f:close()
+--
+-- Edit the string
+--
+content = string.gsub(content, "asdf", "Hello")
+--
+-- Write it out
+--
+local f = io.open('./Other/test.md', "w")
+f:write(content)
+f:close()
+
+
+-- -- Read entire file at once (Alternate):
+-- -- Original: http://stackoverflow.com/a/31857671/3219667
+-- local open = io.open
+
+-- local function read_file(path)
+--     local file = open(path, "rb") -- r read mode and b binary mode
+--     if not file then return nil end
+--     local content = file:read "*a" -- *a or *all reads the whole file
+--     file:close()
+--     return content
+-- end
+
+-- local fileContent = read_file('./Other/stats.md');
+-- AlertUser(fileContent);
+
+
+
 --------------------------------------------------
 -- WIP
 --------------------------------------------------
