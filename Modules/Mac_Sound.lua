@@ -87,12 +87,12 @@ end
 
 -- -- Demonstration of passing a function as an argument
 -- Note: do not include the () of the function
-function checkIfSpotifyOpen( func, funcAlt )
+function checkIfSpotifyOpen( func, funcAlt, silent )
   if hs.spotify.isRunning() then
-    func()
+    func(silent)
     show_track_timer = hs.timer.doAfter(1, function() spotify_trackInfo() end)
   else
-    funcAlt()
+    funcAlt(silent)
   end
 end
 
@@ -100,17 +100,17 @@ end
 -- Control iTunes or Chrome (Streamkeys) using custom commands:
 --
 hs.hotkey.bind(Utility.mash, 'b', function ()
-  checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous)
+  checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous, false)
 end)
 hs.hotkey.bind(Utility.mash, 'n', function ()
-  checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause)
+  checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause, false)
 end)
 hs.hotkey.bind(Utility.mash, 'm', function ()
-  checkIfSpotifyOpen(hs.spotify.next, streamkeys_next)
+  checkIfSpotifyOpen(hs.spotify.next, streamkeys_next, false)
 end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "j", function ()
-  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo)
+  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false)
 end)
 
 --
