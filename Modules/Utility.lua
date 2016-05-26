@@ -150,6 +150,7 @@ function Utility.read_file(file, type)
 	end
 end
 
+-- Change every line in a file
 function Utility.write_file(file, content)
   -- Validate inputs
   if not Utility.file_exists(file) then return false end
@@ -161,6 +162,15 @@ function Utility.write_file(file, content)
 	f:write(sContent)
 	f:close()
 	return true
+end
+-- Change a specific line of a file
+function Utility.change_file_line(file_path, line_num, new_content)
+    local tContents = Utility.read_file(file_path, 'l')
+    table.remove(tContents, line_num)
+    table.insert(tContents, line_num, tostring(new_content))
+    -- print('Updated tContents:')
+    -- Utility.printTables(tContents)
+    Utility.write_file(file_path, tContents)
 end
 
 -- Serialize a Lua array with new line ("\n") delimiters

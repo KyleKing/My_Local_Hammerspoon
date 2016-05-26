@@ -5,12 +5,16 @@ initLog.d('>> Loading Mac Sound for:')
 initLog.d('   Spotify')
 initLog.d('   StreamKeys')
 
+-- Persistent data stored in:
+local file = './Other/stats.md'
+
+
 --------------------------------------------------
 -- Spotify and Soundcloud utilities
 --------------------------------------------------
 
 -- Get song and artist of current playing track:
-function streamkeys_trackInfo()
+function streamkeys_trackInfo(silent)
   -- Get a JSON object of the info of every open tab in Chrome:
   local file = 'Hammerspoon/chrome_songs.applescript';
   local result = Utility.captureNEW('osascript '..Utility.scptPath..file)
@@ -20,66 +24,54 @@ function streamkeys_trackInfo()
   -- Make sure to use strong quoting with apostrophes, otherwise special characters will be interpreted, like $, \, etc.
   local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
   local obj = Utility.readJSON(JSparsedResult)
-  check_if_mute('', 'mute', streamkeys_trackInfo)
-  -- check_if_mute(obj.song, obj.artist, streamkeys_trackInfo)
+  -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
+  check_if_mute(silent, obj.song, obj.artist, streamkeys_trackInfo)
 end
-function spotify_trackInfo()
+function spotify_trackInfo(silent)
   -- hs.spotify.displayCurrentTrack()
   local song = hs.spotify.getCurrentTrack()
   local artist = hs.spotify.getCurrentArtist()
-  check_if_mute( song, artist, spotify_trackInfo )
+  check_if_mute( silent, song, artist, spotify_trackInfo )
 end
 
 -- Display current track name and artist
 -- Then check if the song should be muted, if so, start a callback loop
-function check_if_mute( song, artist, callback )
+function check_if_mute( silent, song, artist, callback )
+  -- Check persistent settings and configure volume info:
+  local tContents = Utility.read_file(file, 'l')
+  local volume_prev = hs.audiodevice.defaultOutputDevice():volume() -- Get current laptop volume
+  -- AlertUser(tostring(volume_prev))
+  if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
+    volume_prev = tContents[4]
+  else
+    Utility.change_file_line(file, 4, math.floor(volume_prev))
+  end
+
+  -- Check if computer should be muted
   if Utility.isEmpty(artist) or Utility.isEmpty(song) or song == 'mute' or artist == 'mute' then
-    -- Get previous laptop volume
-    local volume_prev = hs.audiodevice.defaultOutputDevice():volume()
-    -- AlertUser(tostring(volume_prev))
-
-    -- Store persistent volume information to a file:
-    local file = './Other/stats.md'
-    local tContents = Utility.read_file(file, 'l')
-    -- print('Raw tContents:')
-    -- Utility.printTables(tContents)
-    -- TODO: Check if muted too!
-    if volume_prev <= 1 or Utility.isEmpty(volume_prev) then
-      volume_prev = tContents[4]
-    else
-      table.remove(tContents, 4) -- will remove line 3 so we can insert the new line 3
-      table.insert(tContents, 4, tostring(math.floor(volume_prev))) -- inserts the string "New Infomation" on line 3 in the table.
-      -- print('Updated tContents:')
-      -- Utility.printTables(tContents)
-      Utility.write_file(file, tContents)
-    end
-
-    -- Actual mute commands:
     hs.audiodevice.defaultOutputDevice():setVolume(0)
     hs.audiodevice.defaultOutputDevice():setMuted(true)
     AlertUser('MUTING')
     preventBoomAudio()
-
-    -- Determine next step of mute callback cycle
-    if tContents[2] == true then
-      mute_timer = hs.timer.doAfter(5, function() callback() end)
-    else
-      -- If done muting, return to regular volume
-      hs.audiodevice.defaultOutputDevice():setVolume(Utility.str_to_num(volume_prev))
-      hs.audiodevice.defaultOutputDevice():setMuted(false)
+    mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+  else
+    if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
       AlertUser('𝄆 ♩ ♪ ♫ ♬ BACK TO THE MUSIC! ♬ ♫ ♪ ♩ 𝄇')
+    end
+    hs.audiodevice.defaultOutputDevice():setVolume(Utility.str_to_num(volume_prev))
+    hs.audiodevice.defaultOutputDevice():setMuted(false)
+
+    -- Tell the user what they came for:
+    if silent == false then
       AlertUser(song)
       AlertUser(artist)
     end
-  else
-    AlertUser(song)
-    AlertUser(artist)
+    -- Determine next step of mute callback cycle (true = no alerts)
+    if tContents[2] == 'true' then
+      mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+    end
   end
 end
-
--- TODO:
--- function adblocker ()
--- end
 
 -- StreamKeys Controls
 -- [Note: Spotify Controls (Currently all built-in HS functions)]
@@ -119,4 +111,19 @@ end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "j", function ()
   checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo)
+end)
+
+--
+-- Set Status of Ad Muter
+--
+-- Display track/artist (and mute ads):
+hs.hotkey.bind(Utility.mash, "k", function ()
+  Utility.change_file_line(file, 2, true)
+  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo)
+  AlertUser('Set Loop to True: Ad checking will ensue')
+end)
+-- Display track/artist (and mute ads):
+hs.hotkey.bind(Utility.mash, "h", function ()
+  Utility.change_file_line(file, 2, false)
+  AlertUser('Set Loop to False: Ad checking should stop soon')
 end)
