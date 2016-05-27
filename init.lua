@@ -25,6 +25,12 @@ dofile("./Modules/Mac_Sound.lua")
 local Mac = require("./Modules/MacUtilities")
 local WIP = require("./Other/z_In Progress")
 
+
+Utility.AnyBarUpdate( "green" )
+-- os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
+-- os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
+
+
 ----------------------------------------------------
 -- Custom Alfred Triggers
 --------------------------------------------------

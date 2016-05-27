@@ -12,6 +12,9 @@ local Utility = {}
 Utility.mash = {"ctrl", "alt", "cmd"}
 Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
 Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/'
+Utility.anybar = "1738"
+Utility.anybar1 = "1739"
+Utility.anybar2 = "1740"
 
 function Utility.isEmpty(variable)
   return variable == nil or variable == ''
@@ -190,6 +193,18 @@ function Utility.str_to_num(str)
 	else
 	  return n
 	end
+end
+
+function Utility.AnyBarUpdate(color)
+	local port = Utility.anybar
+	local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
+	local JSparsedResult = Utility.captureNEW(bash_script)
+	-- print(bash_script)
+-- 	-- local color = "green"
+-- 	local script = 'tell application "AnyBar" to set image name to "'..color..'"'
+-- 	local succeed, result, raw = hs.osascript.applescript(script)
+-- -- tell application "AnyBar" to set current to get image name as Unicode text
+-- -- display notification current
 end
 
 return Utility
