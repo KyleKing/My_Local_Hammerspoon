@@ -9,6 +9,9 @@ initLog.d('>> Loading Utility Functions')
 
 local Utility = {}
 
+-- Persistent data stored in:
+Utility.file = './Other/stats.md'
+
 Utility.mash = {"ctrl", "alt", "cmd"}
 Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
 Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/'

@@ -9,9 +9,6 @@ initLog.d('   StreamKeys')
 muteLog = hs.logger.new('MuteWatcher')
 -- muteLog.setLogLevel(4) -- [0,5]
 
--- Persistent data stored in:
-local file = './Other/stats.md'
-
 --------------------------------------------------
 -- Spotify and Soundcloud utilities
 --------------------------------------------------
@@ -83,14 +80,14 @@ function check_if_mute( silent, song, artist, callback )
   Utility.AnyBarUpdate( "red", true )
 
   -- Check persistent settings and configure volume info:
-  local tContents = Utility.read_file(file, 'l')
+  local tContents = Utility.read_file(Utility.file, 'l')
   local volume_prev = hs.audiodevice.defaultOutputDevice():volume() -- Get current laptop volume
   -- AlertUser(tostring(volume_prev))
   if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
     volume_prev = tContents[4]
   else
     muteLog.df("volume_prev: %s - silent: %s - tContents: %s", math.floor(volume_prev), silent, tContents[2] == 'true')
-    Utility.change_file_line(file, 4, math.floor(volume_prev))
+    Utility.change_file_line(Utility.file, 4, math.floor(volume_prev))
   end
 
   -- Check if computer should be muted
@@ -149,12 +146,12 @@ end)
 --
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "k", function ()
-  Utility.change_file_line(file, 2, true)
+  Utility.change_file_line(Utility.file, 2, true)
   checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false)
   AlertUser('Set Loop to True: Ad checking will ensue')
 end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "h", function ()
-  Utility.change_file_line(file, 2, false)
+  Utility.change_file_line(Utility.file, 2, false)
   AlertUser('Set Loop to False: Ad checking should stop soon')
 end)

@@ -40,20 +40,24 @@ local WIP = require("./Other/z_In Progress")
 -- 	return current
 -- ]])
 
--- Open AnyBar
-local tContents = Utility.read_file(Utility.file, 'l')
+-- -- Previous write to file approach:
+-- -- local tContents = Utility.read_file(Utility.file, 'l')
+-- -- if tContents[6] == 'false' then
 
-if tContents[6] == 'false' then
+-- Open AnyBar, by checking for active processes:
+local result = Utility.captureNEW("ps aux | grep -i '[a]nybar'")
+if result == '' then
 	os.execute('open /Users/kyleking/Applications/AnyBar.app')
 	os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
 	os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
-	Utility.change_file_line(Utility.file, 6, true)
+	-- -- Utility.change_file_line(Utility.file, 6, true)
 else
 	Utility.AnyBarUpdate( "black", true )
-	-- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
-	-- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")
-	-- Utility.change_file_line(Utility.file, 6, false)
+	-- -- Utility.change_file_line(Utility.file, 6, false)
 end
+-- Kill AnyBar if needed:
+-- -- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
+-- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")
 
 ----------------------------------------------------
 -- Custom Alfred Triggers
