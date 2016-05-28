@@ -1,3 +1,6 @@
+-- TODO: https://tomdebruijn.com/posts/super-fast-application-switching/
+-- TODO: http://bezhermoso.github.io/2016/01/20/making-perfect-ramen-lua-os-x-automation-with-hammerspoon/
+
 print('')
 print('>> STARTED LOADING HS Profile')
 print('')
@@ -16,6 +19,7 @@ end
 dofile("./Modules/HelloWorld.lua")
 local Utility = require("./Modules/Utility")
 local Tiling = require("./Modules/windowTiling")
+dofile("./Modules/Mac_Browsers.lua")
 dofile("./Modules/Mac_Filesystem.lua")
 dofile("./Modules/Mac_Hardware.lua")
 dofile("./Modules/Mac_Peripherals.lua")
@@ -25,16 +29,35 @@ dofile("./Modules/Mac_Sound.lua")
 local Mac = require("./Modules/MacUtilities")
 local WIP = require("./Other/z_In Progress")
 
--- Open AnyBar
-os.execute('open /Users/kyleking/Applications/AnyBar.app')
-os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
-os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
-Utility.AnyBarUpdate( "white", true )
+----------------------------------------------------
+-- Any Bar
+----------------------------------------------------
 
+-- -- Get current color of AnyBar
+-- -- Wanted to see if open, but opens up the app anyway
+-- local success, color, raw = hs.applescript([[
+-- 	tell application "AnyBar" to set current to get image name as Unicode text
+-- 	return current
+-- ]])
+
+-- Open AnyBar
+local tContents = Utility.read_file(Utility.file, 'l')
+
+if tContents[6] == 'false' then
+	os.execute('open /Users/kyleking/Applications/AnyBar.app')
+	os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
+	os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
+	Utility.change_file_line(Utility.file, 6, true)
+else
+	Utility.AnyBarUpdate( "black", true )
+	-- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
+	-- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")
+	-- Utility.change_file_line(Utility.file, 6, false)
+end
 
 ----------------------------------------------------
 -- Custom Alfred Triggers
---------------------------------------------------
+----------------------------------------------------
 
 local dir = 'imgs/'
 
@@ -83,6 +106,12 @@ function AlfredFunctions()
 			["func_name"]="wintile",
 			["description"]="Manually Tile Windows (12 units)",
 			["icon"]=dir..'tile.png',
+			["arg"]='string'
+		},
+		{
+			["func_name"]="learnXinY",
+			["description"]="Shortcut to lXinY, type language",
+			["icon"]=dir..'internet.png',
 			["arg"]='string'
 		},
 		{

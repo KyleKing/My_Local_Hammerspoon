@@ -218,4 +218,75 @@ function Utility.AnyBarUpdate( color, port )
 	-- print(bash_script)
 end
 
+-- FIXME: Focus the new window [ hs.window:focus() ]
+function Utility.launchWebView( url, win )
+
+	-- Notes on windowStyle:
+	-- -- Appears to only be odd numbers:
+	-- -- 1 - Basic Bar
+	-- -- 3 - Close button
+	-- -- 5 - Minimizable button
+	-- -- 7 - Close/Minimize
+	-- -- 9 - maximize button
+	-- -- 11 - Close/Maximize buttons
+	-- -- 13 - Min/Max buttons
+	-- -- 15 - all three buttons
+	-- Or: :windowStyle({"titled", "closable", "resizable"}) --, "fullSizeContentView"})
+	-- See: https://github.com/thomasjachmann/dotfiles/blob/b1a2a4b92795c7204f3e6bd3862fec80f1edae3e/hammerspoon/.hammerspoon/apps/ticktrack.lua
+	-- For more complex examples, see:
+	-- https://github.com/asmagill/hammerspoon-config/blob/27a54cef941440e369754b04a9cb7e6f25e769a2/_scratch/webviewOtherURLS.lua
+	-- https://github.com/asmagill/hammerspoon-config/blob/27a54cef941440e369754b04a9cb7e6f25e769a2/_scratch/dash.lua
+
+	if type(url) == 'string' then
+		-- local title = 'Learn X in Y Minutes'
+		local title = 'Hammerspoon WebView Window'
+		local screen = win:screen()
+		local max = screen:frame()
+		local margin = 100
+	  local rect = hs.geometry.rect(max.x + margin, max.y + margin, max.w - 2*margin, max.h - 2*margin)
+		-- local wv = hs.webview.new( rect )
+		local webview = hs.webview.new( rect, {developerExtrasEnabled = true} )
+		                      :url(url)
+		                      :allowGestures(true)
+		                      :allowNavigationGestures(true)
+		                      :allowMagnificationGestures(true)
+		                      :allowNewWindows(false)
+		                      :allowTextEntry(true)
+		                      :windowTitle(title)
+		                      :windowStyle(15)
+		                      :deleteOnClose(true)
+		                      :show()
+	  hs.application.get("Hammerspoon"):activate()
+	else
+		AlertUser('Error: "launchWebView" needs a string URL')
+	end
+end
+function Utility.openURL( URL )
+	initLog.d("open "..URL)
+	os.execute("open "..URL)
+end
+
+
+function Utility.printOpenApps( aString )
+	AlertUser('Error: "printOpenApps" does nothing yet')
+	-- See a list of all running applications:
+	-- -- hs.application.runningApplications()
+	-- -- https://github.com/tombruijn/dotfiles/blob/master/hammerspoon/triggers.lua
+	-- function applicationRunning(name)
+	--   apps = hs.application.runningApplications()
+	--   found = false
+	--   for i = 1, #apps do
+	--     app = apps[i]
+	--     print(app:title())
+	--     print(app:mainWindow())
+	--     if app:title() == name and (#app:allWindows() > 0 or app:mainWindow()) then
+	--       found = true
+	--     end
+	--   end
+
+	--   return found
+	-- end
+	-- applicationRunning('Learn X in Y Minutes')
+end
+
 return Utility
