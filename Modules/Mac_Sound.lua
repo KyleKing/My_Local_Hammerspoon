@@ -28,8 +28,12 @@ function streamkeys_trackInfo(silent)
   -- Make sure to use strong quoting with apostrophes, otherwise special characters will be interpreted, like $, \, etc.
   local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
   local obj = Utility.readJSON(JSparsedResult)
-  -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
-  check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+  if not Utility.isEmpty(obj) then
+    -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
+    check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+  else
+    AlertUser('Empty obj for Soundcloud')
+  end
 end
 function spotify_trackInfo(silent)
   muteLog.df("Checking Spotify Track Info")
@@ -39,10 +43,44 @@ function spotify_trackInfo(silent)
   check_if_mute( silent, song, artist, spotify_trackInfo )
 end
 
+function mute_sound( silent, song, artist, callback )
+  muteLog.df("Muted! Callback is: %s", callback)
+  if silent == false then
+    AlertUser('MUTING')
+  end
+  Utility.AnyBarUpdate( "green", true )
+  hs.audiodevice.defaultOutputDevice():setVolume(0)
+  hs.audiodevice.defaultOutputDevice():setMuted(true)
+  preventBoomAudio()
+  mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+end
+function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
+  muteLog.df("Mute-ifs: %s, %s, %s, or %s", Utility.isEmpty(artist), Utility.isEmpty(song), song == 'mute', artist == 'mute')
+  if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
+    AlertUser('𝄆 ♩ ♪ ♫ ♬ BACK TO THE MUSIC! ♬ ♫ ♪ ♩ 𝄇')
+  end
+  hs.audiodevice.defaultOutputDevice():setVolume(Utility.str_to_num(volume_prev))
+  hs.audiodevice.defaultOutputDevice():setMuted(false)
+
+  -- Tell the user what they came for:
+  if silent == false then
+    AlertUser(song)
+    AlertUser(artist)
+  else
+    print(song)
+    print(artist)
+  end
+  -- Determine next step of mute callback cycle (true = no alerts)
+  if tContents[2] == 'true' then
+    Utility.AnyBarUpdate( "green", true )
+    mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+  end
+end
+
 -- Display current track name and artist
 -- Then check if the song should be muted, if so, start a callback loop
 function check_if_mute( silent, song, artist, callback )
-  Utility.AnyBarUpdate( "red" )
+  Utility.AnyBarUpdate( "red", true )
 
   -- Check persistent settings and configure volume info:
   local tContents = Utility.read_file(file, 'l')
@@ -51,39 +89,15 @@ function check_if_mute( silent, song, artist, callback )
   if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
     volume_prev = tContents[4]
   else
+    muteLog.df("volume_prev: %s - silent: %s - tContents: %s", math.floor(volume_prev), silent, tContents[2] == 'true')
     Utility.change_file_line(file, 4, math.floor(volume_prev))
   end
 
   -- Check if computer should be muted
-  muteLog.df("Mute-ifs: %s, %s, %s, or %s", Utility.isEmpty(artist), Utility.isEmpty(song), song == 'mute', artist == 'mute')
   if Utility.isEmpty(artist) or Utility.isEmpty(song) or song == 'mute' or artist == 'mute' then
-    muteLog.df("Muted! Callback is: %s", callback)
-    if silent == false then
-      AlertUser('MUTING')
-    end
-    Utility.AnyBarUpdate( "green" )
-    hs.audiodevice.defaultOutputDevice():setVolume(0)
-    hs.audiodevice.defaultOutputDevice():setMuted(true)
-    preventBoomAudio()
-    mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+    mute_sound( silent, song, artist, callback )
   else
-    muteLog.df("volume_prev: %s - silent: %s - tContents: %s", math.floor(volume_prev), silent, tContents[2] == 'true')
-    if hs.audiodevice.defaultOutputDevice():muted() or volume_prev <= 1 or Utility.isEmpty(volume_prev) then
-      AlertUser('𝄆 ♩ ♪ ♫ ♬ BACK TO THE MUSIC! ♬ ♫ ♪ ♩ 𝄇')
-    end
-    hs.audiodevice.defaultOutputDevice():setVolume(Utility.str_to_num(volume_prev))
-    hs.audiodevice.defaultOutputDevice():setMuted(false)
-
-    -- Tell the user what they came for:
-    if silent == false then
-      AlertUser(song)
-      AlertUser(artist)
-    end
-    -- Determine next step of mute callback cycle (true = no alerts)
-    if tContents[2] == 'true' then
-      Utility.AnyBarUpdate( "green" )
-      mute_timer = hs.timer.doAfter(5, function() callback(true) end)
-    end
+    unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   end
 end
 
@@ -114,15 +128,15 @@ end
 -- Control iTunes or Chrome (Streamkeys) using custom commands:
 --
 hs.hotkey.bind(Utility.mash, 'b', function ()
-Utility.AnyBarUpdate( "blue" )
+  Utility.AnyBarUpdate( "blue", true )
   checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous, false)
 end)
 hs.hotkey.bind(Utility.mash, 'n', function ()
-Utility.AnyBarUpdate( "yellow" )
+  Utility.AnyBarUpdate( "yellow", true )
   checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause, false)
 end)
 hs.hotkey.bind(Utility.mash, 'm', function ()
-Utility.AnyBarUpdate( "orange" )
+  Utility.AnyBarUpdate( "orange", true )
   checkIfSpotifyOpen(hs.spotify.next, streamkeys_next, false)
 end)
 -- Display track/artist (and mute ads):

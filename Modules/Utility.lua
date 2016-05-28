@@ -15,6 +15,7 @@ Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaSc
 Utility.anybar = "1738"
 Utility.anybar1 = "1739"
 Utility.anybar2 = "1740"
+-- os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
 
 function Utility.isEmpty(variable)
   return variable == nil or variable == ''
@@ -168,12 +169,12 @@ function Utility.write_file(file, content)
 end
 -- Change a specific line of a file
 function Utility.change_file_line(file_path, line_num, new_content)
-    local tContents = Utility.read_file(file_path, 'l')
-    table.remove(tContents, line_num)
-    table.insert(tContents, line_num, tostring(new_content))
-    -- print('Updated tContents:')
-    -- Utility.printTables(tContents)
-    Utility.write_file(file_path, tContents)
+  local tContents = Utility.read_file(file_path, 'l')
+  table.remove(tContents, line_num)
+  table.insert(tContents, line_num, tostring(new_content))
+  -- print('Updated tContents:')
+  -- Utility.printTables(tContents)
+  Utility.write_file(file_path, tContents)
 end
 
 -- Serialize a Lua array with new line ("\n") delimiters
@@ -195,16 +196,26 @@ function Utility.str_to_num(str)
 	end
 end
 
-function Utility.AnyBarUpdate(color)
-	local port = Utility.anybar
+function Utility.AnyBarUpdate( color, port )
+	-- -- Applescript version:
+	-- local script = 'tell application "AnyBar" to set image name to "'..color..'"'
+	-- local succeed, result, raw = hs.osascript.applescript(script)
+	-- -- tell application "AnyBar" to set current to get image name as Unicode text
+	-- -- display notification current
+
+	-- local color = "green"
+	if type(port) == 'string' then
+		-- -- Make sure anybar on that port is open:
+		-- -- local portNum = Utility.str_to_num(port)
+		-- -- Opens a new port, actually only call once in init.lua
+		-- print('ANYBAR_PORT='..port..' open -na AnyBar')
+		-- os.execute('ANYBAR_PORT='..port..' open -na AnyBar')
+	else
+		port = Utility.anybar
+	end
 	local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
 	local JSparsedResult = Utility.captureNEW(bash_script)
 	-- print(bash_script)
--- 	-- local color = "green"
--- 	local script = 'tell application "AnyBar" to set image name to "'..color..'"'
--- 	local succeed, result, raw = hs.osascript.applescript(script)
--- -- tell application "AnyBar" to set current to get image name as Unicode text
--- -- display notification current
 end
 
 return Utility

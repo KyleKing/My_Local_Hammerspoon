@@ -15,7 +15,16 @@ function blueutil(value)
   if value then
     os.execute('/usr/local/bin/blueutil '..value)
     local bashResult = Utility.capture('/usr/local/bin/blueutil status', false)
-    hs.alert.show('Bluetooth '..bashResult)
+
+    -- Display result
+    print(bashResult)
+    AlertUser('Bluetooth '..bashResult)
+    if bashResult == 'Status: on' then
+    	Utility.AnyBarUpdate( "blue", Utility.anybar1 )
+    else
+    	Utility.AnyBarUpdate( "purple", Utility.anybar1 )
+    end
+
   else
     hs.alert.show("Need value, either 'on' or 'off'")
   end
