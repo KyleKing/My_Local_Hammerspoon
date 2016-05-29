@@ -17,7 +17,7 @@ muteLog = hs.logger.new('MuteWatcher')
 function streamkeys_trackInfo(silent)
   muteLog.df("Checking StreamKeys Track Info")
   -- Get a JSON object of the info of every open tab in Chrome:
-  local file = 'Hammerspoon/chrome_songs.applescript';
+  local file = 'Hammerspoon-scpt/chrome_songs.applescript';
   local result = Utility.captureNEW('osascript '..Utility.scptPath..file)
 
   -- Use that JSON as a STDIN for the following JS parser:
@@ -25,7 +25,7 @@ function streamkeys_trackInfo(silent)
   -- Make sure to use strong quoting with apostrophes, otherwise special characters will be interpreted, like $, \, etc.
   local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
   local obj = Utility.readJSON(JSparsedResult)
-  if not Utility.isEmpty(obj) then
+  if not Utility.isEmpty(obj) and type(obj) == 'table' then
     -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
     check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
   else
@@ -37,6 +37,9 @@ function spotify_trackInfo(silent)
   -- hs.spotify.displayCurrentTrack()
   local song = hs.spotify.getCurrentTrack()
   local artist = hs.spotify.getCurrentArtist()
+  if artist == "Various Artists" then
+    artist = 'mute'
+  end
   check_if_mute( silent, song, artist, spotify_trackInfo )
 end
 
@@ -45,6 +48,7 @@ function mute_sound( silent, song, artist, callback )
   if silent == false then
     AlertUser('MUTING')
   end
+  Utility.AnyBarUpdate( "yellow", Utility.anybar2 )
   Utility.AnyBarUpdate( "green", true )
   hs.audiodevice.defaultOutputDevice():setVolume(0)
   hs.audiodevice.defaultOutputDevice():setMuted(true)
@@ -68,9 +72,14 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
     print(artist)
   end
   -- Determine next step of mute callback cycle (true = no alerts)
+  Utility.AnyBarUpdate( "cyan", Utility.anybar2 )
   if tContents[2] == 'true' then
     Utility.AnyBarUpdate( "green", true )
     mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+  else
+    -- Set Everything to Red:
+    Utility.AnyBarUpdate( "red", true )
+    Utility.AnyBarUpdate( "red", Utility.anybar2 )
   end
 end
 
