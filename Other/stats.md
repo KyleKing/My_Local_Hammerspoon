@@ -1,6 +1,6 @@
 # Should auto-ad block continue to run?
-false
+true
 # Previous volume:
-62
+5
 # Is AnyBar Open?
 false

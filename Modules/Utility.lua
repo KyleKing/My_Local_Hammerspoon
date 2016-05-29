@@ -14,7 +14,7 @@ Utility.file = './Other/stats.md'
 
 Utility.mash = {"ctrl", "alt", "cmd"}
 Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
-Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/'
+Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon-js/'
 Utility.anybar = "1738"
 Utility.anybar1 = "1739"
 Utility.anybar2 = "1740"
@@ -216,9 +216,10 @@ function Utility.AnyBarUpdate( color, port )
 	else
 		port = Utility.anybar
 	end
+	print(port)
 	local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
 	local JSparsedResult = Utility.captureNEW(bash_script)
-	-- print(bash_script)
+	print(bash_script)
 end
 
 -- FIXME: Focus the new window [ hs.window:focus() ]

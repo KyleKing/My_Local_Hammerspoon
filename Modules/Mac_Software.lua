@@ -22,7 +22,7 @@ end
 
 -- Control open/closed apps more easily than tweaking each app's settings
 function Load_Order()
-  local file = 'Hammerspoon/compiled/'
+  local file = 'Hammerspoon-scpt/compiled/'
   os.execute('osascript '..Utility.scptPath..file..'load_order.scpt')
   os.execute('osascript '..Utility.scptPath..file..'load_safari_quitter.scpt')
   preventBoomAudio()

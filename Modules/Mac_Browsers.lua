@@ -5,8 +5,6 @@ initLog.d('>> Loading Browser Tools:')
 
 hs.hotkey.bind(Utility.mash, "o", function()
 	Utility.launchWebView( 'https://learnxinyminutes.com/docs/bash', hs.window.focusedWindow() )
-	-- Definitely Hammerspoon, because this works:
-	-- hs.application.launchOrFocus('Hammerspoon')
 end)
 
 function learnXinY( language )

@@ -29,8 +29,8 @@ function reloadConfig(files)
     end
 end
 hs.pathwatcher.new(os.getenv("HOME").."/.hammerspoon/", reloadConfig):start()
--- FIXME: no notification appearing?
-Utility.BattAlert('HS Config Loaded', 1)
+
+NotifyUser('Fresh Start', 'HS Config Loaded')
 
 --------------------------------------------------
 -- Other Filesystem utilities

@@ -25,6 +25,12 @@ function AlertUser(term)
 end
 -- AlertUser("it works")
 
+function NotifyUser( title, message )
+  print('NotifyUser: '..title..' and '..message)
+  hs.notify.new({title=title, informativeText=message}):send()
+end
+
+
 ----------------------------------------------------
 -- Other
 --------------------------------------------------

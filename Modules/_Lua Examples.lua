@@ -126,7 +126,7 @@ function streamkeys_trackInfo()
 
   -- -- Above attempt works, but is very slow:
   local file = 'Hammerspoon/chrome_songs.applescript';
-  -- -- local file = 'Hammerspoon/compiled/chrome_songs.scpt';
+  -- -- local file = 'Hammerspoon-scpt/compiled/chrome_songs.scpt';
   -- print(Utility.scptPath..file)
   -- -- -- Run a pasted line of applescript code:
   -- -- -- local succeed, result, raw = hs.osascript.applescript('return "words"')

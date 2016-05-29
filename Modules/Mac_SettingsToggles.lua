@@ -34,7 +34,7 @@ end
 function ToggleDND(setting)
 	if setting then
 		-- Where setting is 'on' or 'off'
-		local file = 'Hammerspoon/compiled/ToggleDND.scpt'
+		local file = 'Hammerspoon-scpt/compiled/ToggleDND.scpt'
 		os.execute('osascript '..Utility.scptPath..file..' '..setting)
 	else
     hs.alert.show("Needs value, either 'on' or 'off'")
@@ -47,7 +47,7 @@ ToggleDND("off")
 function ToggleInternetSharing(setting)
 	-- Where setting is 'on' or 'off'
 	if setting then
-		local file = 'Hammerspoon/compiled/InternetSharing.scpt'
+		local file = 'Hammerspoon-scpt/compiled/InternetSharing.scpt'
 		os.execute('osascript '..Utility.scptPath..file..' '..setting)
 	else
     hs.alert.show("Needs value, either 'on' or 'off'")
