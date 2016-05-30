@@ -50,11 +50,20 @@ if result == '' then
 	os.execute('open /Users/kyleking/Applications/AnyBar.app')
 	os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
 	os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
+	os.execute('ANYBAR_PORT='..Utility.anybar3..' open -na AnyBar')
 	-- -- Utility.change_file_line(Utility.file, 6, true)
 else
 	Utility.AnyBarUpdate( "black", true )
 	-- -- Utility.change_file_line(Utility.file, 6, false)
 end
+-- Check Do Not Disturb Status:
+local tContents = Utility.read_file(Utility.file, 'l')
+if tContents[8] == 'on' then
+  Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
+else
+  Utility.AnyBarUpdate( "green", Utility.anybar3 )
+end
+
 -- Kill AnyBar if needed:
 -- -- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
 -- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")

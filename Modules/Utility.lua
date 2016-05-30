@@ -18,6 +18,7 @@ Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaSc
 Utility.anybar = "1738"
 Utility.anybar1 = "1739"
 Utility.anybar2 = "1740"
+Utility.anybar3 = "1741"
 -- os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
 
 function Utility.isEmpty(variable)

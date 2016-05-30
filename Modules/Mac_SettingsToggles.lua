@@ -32,13 +32,20 @@ end
 
 -- Toggle Do Not Disturb
 function ToggleDND(setting)
-	if setting then
-		-- Where setting is 'on' or 'off'
-		local file = 'Hammerspoon-scpt/compiled/ToggleDND.scpt'
-		os.execute('osascript '..Utility.scptPath..file..' '..setting)
-	else
+  if setting then
+    if setting == 'on' then
+      Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
+      Utility.change_file_line(Utility.file, 8, 'on')
+    else
+      Utility.AnyBarUpdate( "green", Utility.anybar3 )
+      Utility.change_file_line(Utility.file, 8, 'off')
+    end
+  	-- Where setting is 'on' or 'off'
+  	local file = 'Hammerspoon-scpt/compiled/ToggleDND.scpt'
+  	os.execute('osascript '..Utility.scptPath..file..' '..setting)
+  else
     hs.alert.show("Needs value, either 'on' or 'off'")
-	end
+  end
 end
 
 ToggleDND("off")

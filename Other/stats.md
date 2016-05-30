@@ -4,3 +4,5 @@ true
 5
 # Is AnyBar Open?
 false
+# Do Not Disturb is:
+off

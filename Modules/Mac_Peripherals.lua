@@ -16,7 +16,7 @@ local usbWatcher = nil
 function usbDeviceCallback(data)
 	Utility.printTables(data)
 	-- Turn on Internet sharing for Raspberry Pi development
-	if (data["productName"] == "Apple USB Ethernet Adapter") then
+	if (data["productName"] == "Apple USB Ethernet Adapter" or data["productName"] == "AX88179") then
 		if (data["eventType"] == "added") then
 			-- print('Start internet sharing')
 			ToggleInternetSharing('on')
