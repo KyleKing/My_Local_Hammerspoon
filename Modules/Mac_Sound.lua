@@ -13,35 +13,51 @@ muteLog = hs.logger.new('MuteWatcher')
 -- Spotify and Soundcloud utilities
 --------------------------------------------------
 
+--------------------------------------------------
+-- Get Song and Artist
+--------------------------------------------------
+
 -- Get song and artist of current playing track:
 function streamkeys_trackInfo(silent)
-  muteLog.df("Checking StreamKeys Track Info")
-  -- Get a JSON object of the info of every open tab in Chrome:
-  local file = 'Hammerspoon-scpt/chrome_songs.applescript';
-  local result = Utility.captureNEW('osascript '..Utility.scptPath..file)
+  if Utility.printOpenApps('Google Chrome') then
+    muteLog.df("Checking StreamKeys Track Info")
+    -- Get a JSON object of the info of every open tab in Chrome:
+    local file = 'Hammerspoon-scpt/chrome_songs.applescript';
+    local result = Utility.captureNEW('osascript '..Utility.scptPath..file)
 
-  -- Use that JSON as a STDIN for the following JS parser:
-  -- echo 'foo' | /usr/local/bin/node '/Users/kyleking/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/test.js'
-  -- Make sure to use strong quoting with apostrophes, otherwise special characters will be interpreted, like $, \, etc.
-  local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
-  local obj = Utility.readJSON(JSparsedResult)
-  if not Utility.isEmpty(obj) and type(obj) == 'table' then
-    -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
-    check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+    -- Use that JSON as a STDIN for the following JS parser:
+    -- echo 'foo' | /usr/local/bin/node '/Users/kyleking/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon/test.js'
+    -- Make sure to use strong quoting with apostrophes, otherwise special characters will be interpreted, like $, \, etc.
+    local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
+    local obj = Utility.readJSON(JSparsedResult)
+    if not Utility.isEmpty(obj) and type(obj) == 'table' then
+      -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
+      check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+    else
+      AlertUser('Empty obj for Soundcloud')
+    end
   else
-    AlertUser('Empty obj for Soundcloud')
+    print('Chrome is closed, doing nothing.')
   end
 end
 function spotify_trackInfo(silent)
-  muteLog.df("Checking Spotify Track Info")
-  -- hs.spotify.displayCurrentTrack()
-  local song = hs.spotify.getCurrentTrack()
-  local artist = hs.spotify.getCurrentArtist()
-  if artist == "Various Artists" then
-    artist = 'mute'
+  if hs.spotify.isRunning() then
+    muteLog.df("Checking Spotify Track Info")
+    -- hs.spotify.displayCurrentTrack()
+    local song = hs.spotify.getCurrentTrack()
+    local artist = hs.spotify.getCurrentArtist()
+    if artist == "Various Artists" then
+      artist = 'mute'
+    end
+    check_if_mute( silent, song, artist, spotify_trackInfo )
+  else
+    print('Spotify is closed, doing nothing.')
   end
-  check_if_mute( silent, song, artist, spotify_trackInfo )
 end
+
+--------------------------------------------------
+-- Control Volume Settings
+--------------------------------------------------
 
 function mute_sound( silent, song, artist, callback )
   muteLog.df("Muted! Callback is: %s", callback)
@@ -83,6 +99,10 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   end
 end
 
+--------------------------------------------------
+-- Mute Logic
+--------------------------------------------------
+
 -- Display current track name and artist
 -- Then check if the song should be muted, if so, start a callback loop
 function check_if_mute( silent, song, artist, callback )
@@ -107,6 +127,10 @@ function check_if_mute( silent, song, artist, callback )
   end
 end
 
+--------------------------------------------------
+-- Shortcut Keys
+--------------------------------------------------
+
 -- StreamKeys Controls
 -- [Note: Spotify Controls (Currently all built-in HS functions)]
 function streamkeys_previous()
@@ -125,8 +149,10 @@ function checkIfSpotifyOpen( func, funcAlt, silent )
   if hs.spotify.isRunning() then
     func(silent)
     -- show_track_timer = hs.timer.doAfter(1, function() spotify_trackInfo() end)
-  else
+  elseif Utility.printOpenApps('Google Chrome') then
     funcAlt(silent)
+  else
+    print('Nothing is open, doing nothing.')
   end
 end
 

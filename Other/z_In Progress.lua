@@ -23,37 +23,6 @@ local WIP = {}
 -- end)
 -- currentSpace = tostring(spaces.currentSpace())
 
---------------------------------------------------
-
--- -- Playing around with windows:
--- -- Example Code: https://gist.github.com/asmagill/633c8515e6ace3335d31
-
--- local windowGoogle = hs.webview.new( {x = 50, y = 50,h = 500, w = 900} )
---                         :url('http://inbox.google.com')
---                         :allowGestures(true)
---                         :allowTextEntry(true)
---                         :windowTitle('TestWindow')
---                         :windowStyle(15)
---                         :deleteOnClose(true)
---                         :show()
-
--- -- Appears to only be odd numbers:
--- -- 1 - Basic Bar
--- -- 3 - Close button
--- -- 5 - Minimizable button
--- -- 7 - Close/Minimize
--- -- 9 - maximize button
--- -- 11 - Close/Maximize buttons
--- -- 13 - Min/Max buttons
--- -- 15 - all three buttons
-
--- -- :title('TestWindow')
--- -- hs.webview.windowMasks[] -> utility
--- hs.hotkey.bind(Utility.mash, "h", function()
--- 	windowGoogle:delete()
--- end)
-
-
 
 --------------------------------------------------
 
@@ -64,21 +33,6 @@ local WIP = {}
 
 -- HTTP Requests? IFTTT integration?
 -- http://www.hammerspoon.org/docs/hs.http.html
-
---------------------------------------------------
-
--- Any bar icon
--- Make sure it is open, then change color by sending info to the UDP port:
--- echo -n "red" | nc -u localhost 1738
--- Should be:
--- echo -n "black" | nc -4u -w0 localhost 1738
--- But couldn't get it to work
--- Applescript:
--- ok,result = hs.applescript('tell application "AnyBar" to set image name to "question"')
--- Main link: https://github.com/tonsky/AnyBar
--- Node options:
--- Good: https://github.com/rumpl/nanybar
--- Best: https://github.com/sindresorhus/anybar
 
 --------------------------------------------------
 

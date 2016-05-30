@@ -199,6 +199,10 @@ function Utility.str_to_num(str)
 	end
 end
 
+------------------------
+-- AnyBar Icons
+------------------------
+
 function Utility.AnyBarUpdate( color, port )
 	-- -- Applescript version:
 	-- local script = 'tell application "AnyBar" to set image name to "'..color..'"'
@@ -221,6 +225,10 @@ function Utility.AnyBarUpdate( color, port )
 	local JSparsedResult = Utility.captureNEW(bash_script)
 	print(bash_script)
 end
+
+------------------------
+-- Webview Window and URL Openers
+------------------------
 
 -- FIXME: Focus the new window [ hs.window:focus() ]
 function Utility.launchWebView( url, win )
@@ -271,26 +279,34 @@ function Utility.openURL( URL )
 end
 
 
-function Utility.printOpenApps( aString )
-	AlertUser('Error: "printOpenApps" does nothing yet')
-	-- See a list of all running applications:
+function Utility.printOpenApps( name )
+	-- AlertUser('Error: "printOpenApps" does nothing yet')
+	-- -- See a list of all running applications:
 	-- -- hs.application.runningApplications()
 	-- -- https://github.com/tombruijn/dotfiles/blob/master/hammerspoon/triggers.lua
 	-- function applicationRunning(name)
-	--   apps = hs.application.runningApplications()
-	--   found = false
-	--   for i = 1, #apps do
-	--     app = apps[i]
-	--     print(app:title())
-	--     print(app:mainWindow())
-	--     if app:title() == name and (#app:allWindows() > 0 or app:mainWindow()) then
-	--       found = true
-	--     end
-	--   end
+	  apps = hs.application.runningApplications()
+	  found = false
+	  for i = 1, #apps do
+	    app = apps[i]
+	    if app:title() == name and (#app:allWindows() > 0 or app:mainWindow()) then
+		    -- print(app:title())
+		    -- print(app:mainWindow())
+		    -- print('\nBreak Running Apps')
+		    -- print(tostring(app:title() == name))
+		    -- print(tostring(#app:allWindows() > 0))
+		    -- print(tostring(app:mainWindow()))
+		    -- print('\nEnd Running Apps')
+	      found = true
+	    end
+	  end
 
-	--   return found
+	  return found
 	-- end
 	-- applicationRunning('Learn X in Y Minutes')
 end
+
+local found = Utility.printOpenApps('Google Chrome')
+-- print('found: '..tostring(found))
 
 return Utility
