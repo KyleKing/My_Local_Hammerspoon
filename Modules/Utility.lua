@@ -221,10 +221,10 @@ function Utility.AnyBarUpdate( color, port )
 	else
 		port = Utility.anybar
 	end
-	print(port)
+	-- print(port)
 	local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
 	local JSparsedResult = Utility.captureNEW(bash_script)
-	print(bash_script)
+	-- print(bash_script)
 end
 
 ------------------------

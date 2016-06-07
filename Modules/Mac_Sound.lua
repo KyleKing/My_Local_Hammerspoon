@@ -18,7 +18,7 @@ muteLog = hs.logger.new('MuteWatcher')
 --------------------------------------------------
 
 -- Get song and artist of current playing track:
-function streamkeys_trackInfo(silent)
+function streamkeys_trackInfo(silent, startWatcher)
   if Utility.printOpenApps('Google Chrome') then
     muteLog.df("Checking StreamKeys Track Info")
     -- Get a JSON object of the info of every open tab in Chrome:
@@ -31,8 +31,11 @@ function streamkeys_trackInfo(silent)
     local JSparsedResult = Utility.captureNEW("echo '"..result.."' | /usr/local/bin/node "..Utility.jsPath.."parseSongInfo.js".." 2>&1")
     local obj = Utility.readJSON(JSparsedResult)
     if not Utility.isEmpty(obj) and type(obj) == 'table' then
-      -- check_if_mute(silent, '', 'mute', streamkeys_trackInfo)
-      check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+      if startWatcher == true then
+        check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
+      else
+        displaySongInfo(song, artist, silent)
+      end
     else
       AlertUser('Empty obj for Soundcloud')
     end
@@ -40,7 +43,7 @@ function streamkeys_trackInfo(silent)
     print('Chrome is closed, doing nothing.')
   end
 end
-function spotify_trackInfo(silent)
+function spotify_trackInfo(silent, startWatcher)
   if hs.spotify.isRunning() then
     muteLog.df("Checking Spotify Track Info")
     -- hs.spotify.displayCurrentTrack()
@@ -49,7 +52,13 @@ function spotify_trackInfo(silent)
     if artist == "Various Artists" then
       artist = 'mute'
     end
-    check_if_mute( silent, song, artist, spotify_trackInfo )
+    if startWatcher == nil then
+      AlertUser("STARTWATCHER IS NIL!")
+    elseif startWatcher == true then
+      check_if_mute( silent, song, artist, spotify_trackInfo )
+    else
+      displaySongInfo(song, artist, silent)
+    end
   else
     print('Spotify is closed, doing nothing.')
   end
@@ -69,7 +78,7 @@ function mute_sound( silent, song, artist, callback )
   hs.audiodevice.defaultOutputDevice():setVolume(0)
   hs.audiodevice.defaultOutputDevice():setMuted(true)
   preventBoomAudio()
-  mute_timer = hs.timer.doAfter(5, function() callback(true) end)
+  mute_timer = hs.timer.doAfter(5, function() callback(true, true) end)
 end
 function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   muteLog.df("Mute-ifs: %s, %s, %s, or %s", Utility.isEmpty(artist), Utility.isEmpty(song), song == 'mute', artist == 'mute')
@@ -79,6 +88,21 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   hs.audiodevice.defaultOutputDevice():setVolume(Utility.str_to_num(volume_prev))
   hs.audiodevice.defaultOutputDevice():setMuted(false)
 
+  displaySongInfo(song, artist, silent)
+
+  -- Determine next step of mute callback cycle (true = no alerts)
+  Utility.AnyBarUpdate( "cyan", Utility.anybar2 )
+  if tContents[2] == 'true' then
+    Utility.AnyBarUpdate( "green", true )
+    mute_timer = hs.timer.doAfter(5, function() callback(true, true) end)
+  else
+    -- Set Everything to Red:
+    Utility.AnyBarUpdate( "red", true )
+    Utility.AnyBarUpdate( "red", Utility.anybar2 )
+  end
+end
+
+function displaySongInfo(song, artist, silent)
   -- Tell the user what they came for:
   if silent == false then
     AlertUser(song)
@@ -86,16 +110,6 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   else
     print(song)
     print(artist)
-  end
-  -- Determine next step of mute callback cycle (true = no alerts)
-  Utility.AnyBarUpdate( "cyan", Utility.anybar2 )
-  if tContents[2] == 'true' then
-    Utility.AnyBarUpdate( "green", true )
-    mute_timer = hs.timer.doAfter(5, function() callback(true) end)
-  else
-    -- Set Everything to Red:
-    Utility.AnyBarUpdate( "red", true )
-    Utility.AnyBarUpdate( "red", Utility.anybar2 )
   end
 end
 
@@ -145,12 +159,12 @@ end
 
 -- -- Demonstration of passing a function as an argument
 -- Note: do not include the () of the function
-function checkIfSpotifyOpen( func, funcAlt, silent )
+function checkIfSpotifyOpen( func, funcAlt, silent, startWatcher )
   if hs.spotify.isRunning() then
-    func(silent)
+    func(silent, startWatcher)
     -- show_track_timer = hs.timer.doAfter(1, function() spotify_trackInfo() end)
   elseif Utility.printOpenApps('Google Chrome') then
-    funcAlt(silent)
+    funcAlt(silent, startWatcher)
   else
     print('Nothing is open, doing nothing.')
   end
@@ -161,19 +175,19 @@ end
 --
 hs.hotkey.bind(Utility.mash, 'b', function ()
   Utility.AnyBarUpdate( "blue", true )
-  checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous, false)
+  checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous)
 end)
 hs.hotkey.bind(Utility.mash, 'n', function ()
   Utility.AnyBarUpdate( "yellow", true )
-  checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause, false)
+  checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause)
 end)
 hs.hotkey.bind(Utility.mash, 'm', function ()
   Utility.AnyBarUpdate( "orange", true )
-  checkIfSpotifyOpen(hs.spotify.next, streamkeys_next, false)
+  checkIfSpotifyOpen(hs.spotify.next, streamkeys_next)
 end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "j", function ()
-  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false)
+  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false, false)
 end)
 
 --
@@ -182,7 +196,7 @@ end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "k", function ()
   Utility.change_file_line(Utility.file, 2, true)
-  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false)
+  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false, true)
   AlertUser('Set Loop to True: Ad checking will ensue')
 end)
 -- Display track/artist (and mute ads):

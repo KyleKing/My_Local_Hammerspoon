@@ -37,7 +37,7 @@ function ToggleDND(setting)
       Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
       Utility.change_file_line(Utility.file, 8, 'on')
     else
-      Utility.AnyBarUpdate( "green", Utility.anybar3 )
+      Utility.AnyBarUpdate( "black", Utility.anybar3 )
       Utility.change_file_line(Utility.file, 8, 'off')
     end
   	-- Where setting is 'on' or 'off'
@@ -48,7 +48,7 @@ function ToggleDND(setting)
   end
 end
 
-ToggleDND("off")
+-- ToggleDND("off")
 
 -- Toggle Internet Sharing
 function ToggleInternetSharing(setting)

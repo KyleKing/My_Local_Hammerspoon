@@ -61,7 +61,7 @@ local tContents = Utility.read_file(Utility.file, 'l')
 if tContents[8] == 'on' then
   Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
 else
-  Utility.AnyBarUpdate( "green", Utility.anybar3 )
+  Utility.AnyBarUpdate( "black", Utility.anybar3 )
 end
 
 -- Kill AnyBar if needed:
