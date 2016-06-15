@@ -34,7 +34,7 @@ function streamkeys_trackInfo(silent, startWatcher)
       if startWatcher == true then
         check_if_mute( silent, obj.song, obj.artist, streamkeys_trackInfo )
       else
-        displaySongInfo(song, artist, silent)
+        displaySongInfo(obj.song, obj.artist, silent)
       end
     else
       AlertUser('Empty obj for Soundcloud')
@@ -103,6 +103,14 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
 end
 
 function displaySongInfo(song, artist, silent)
+  -- Make sure the right info was retrieved
+  if Utility.isEmpty(song) then
+    song = 'unknown'
+  end
+  if Utility.isEmpty(artist) then
+    artist = 'unknown'
+  end
+
   -- Tell the user what they came for:
   if silent == false then
     AlertUser(song)
@@ -203,4 +211,6 @@ end)
 hs.hotkey.bind(Utility.mash, "h", function ()
   Utility.change_file_line(Utility.file, 2, false)
   AlertUser('Set Loop to False: Ad checking should stop soon')
+  -- Force reload to allow watchers to function once again
+  hs.reload()
 end)

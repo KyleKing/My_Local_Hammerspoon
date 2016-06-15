@@ -1,7 +1,7 @@
 # Should auto-ad block continue to run?
-true
+false
 # Previous volume:
-18
+30
 # Is AnyBar Open?
 false
 # Do Not Disturb is:
