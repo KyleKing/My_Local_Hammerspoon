@@ -10,6 +10,20 @@ initLog.d('   Compile Applescript Files')
 -- Reload Hammerspoon Configuration
 --------------------------------------------------
 
+-- Make sure persistent data file is present
+if Utility.file_exists(Utility.file) then
+    initLog.d(Utility.file..' exists and will not be overwritten')
+else
+    -- Source: http://stackoverflow.com/a/16368141/3219667
+    infile = io.open(Utility.file..".back", "r")
+    instr = infile:read("*a")
+    infile:close()
+
+    outfile = io.open(Utility.file, "w")
+    outfile:write(instr)
+    outfile:close()
+end
+
 -- Reload Configuration with Shortcut
 function manualReload()
   hs.reload()
@@ -56,7 +70,7 @@ function reloadApplescript(files)
             doReload = true
         end
     end
-    print('doReload: '..tostring(doReload))
+    print('(reloadApplescript) doReload: '..tostring(doReload))
     if doReload then
         -- FIXME: Currently opens Safari whenever run?
         hs.notify.new({title="HS", informativeText='Re-Compiled Applescript'}):send()

@@ -131,6 +131,7 @@ function Utility.file_exists(file)
   return f ~= nil
 end
 
+
 function Utility.read_file(file, type)
 	-- Returns an empty list/table if the file does not exist
   if not Utility.file_exists(file) then return {} end
