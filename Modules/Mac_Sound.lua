@@ -78,7 +78,7 @@ function mute_sound( silent, song, artist, callback )
   hs.audiodevice.defaultOutputDevice():setVolume(0)
   hs.audiodevice.defaultOutputDevice():setMuted(true)
   preventBoomAudio()
-  mute_timer = hs.timer.doAfter(5, function() callback(true, true) end)
+  hs.timer.doAt(Utility.incSeconds(10), function() callback(true, true) end)
 end
 function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   muteLog.df("Mute-ifs: %s, %s, %s, or %s", Utility.isEmpty(artist), Utility.isEmpty(song), song == 'mute', artist == 'mute')
@@ -94,7 +94,7 @@ function unmute_sound( silent, song, artist, callback, tContents, volume_prev )
   Utility.AnyBarUpdate( "cyan", Utility.anybar2 )
   if tContents[2] == 'true' then
     Utility.AnyBarUpdate( "green", true )
-    mute_timer = hs.timer.doAfter(5, function() callback(true, true) end)
+    hs.timer.doAt(Utility.incSeconds(10), function() callback(true, true) end)
   else
     -- Set Everything to Red:
     Utility.AnyBarUpdate( "red", true )
@@ -171,6 +171,7 @@ function checkIfSpotifyOpen( func, funcAlt, silent, startWatcher )
   if hs.spotify.isRunning() then
     func(silent, startWatcher)
     -- show_track_timer = hs.timer.doAfter(1, function() spotify_trackInfo() end)
+    -- show_track_timer = hs.timer.doAt(Utility.incSeconds(1), function() spotify_trackInfo() end)
   elseif Utility.printOpenApps('Google Chrome') then
     funcAlt(silent, startWatcher)
   else

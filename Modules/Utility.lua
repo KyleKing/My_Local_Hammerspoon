@@ -311,4 +311,27 @@ end
 local found = Utility.printOpenApps('Google Chrome')
 -- print('found: '..tostring(found))
 
+
+-- Get a new time in the format 10:20:00 plus the number of second specified
+--
+-- Example:
+-- hs.timer.doAt(Utility.incSeconds(80), function() AlertUser("THIS TIMER WORKED!") end)
+function Utility.incSeconds(num)
+	-- From: http://stackoverflow.com/q/12466950/3219667
+	time = os.date("*t")
+
+	seconds = (time.sec + num)
+	minutes = time.min + math.floor(seconds/60)
+
+	newtime = ("%02d:%02d:%02d"):format(
+		time.hour + math.floor(minutes/60),
+		minutes%60,
+		seconds%60
+	)
+	print("newtime = "..newtime)
+	return newtime
+end
+
+
+
 return Utility
