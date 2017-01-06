@@ -31,6 +31,14 @@ function Utility.BattAlert(str, val)
   hs.alert.show(message)
 end
 
+-- Modified from http://stackoverflow.com/a/10387949/3219667
+function Utility.readAll(file)
+    -- TODO: Add error handling if file not found or can't be opened
+    local f = io.open(file, "rb")
+    local content = f:read("*all")
+    f:close()
+    return content
+end
 
 -- Useful to send data from Hammerspoon to other applications
 function Utility.printJSON(table)

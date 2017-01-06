@@ -114,6 +114,7 @@ function wintile(raw)
 		end
 		if count == 2 then
 	    hs.alert.show("Incorrect value: combine any of [t,b,l,r] with a number less than 12")
+	    hs.alert.show("i.e. 'h w l12' or 'h w l8b2' (w-selects win tile)")
 	  end
 	else
 	  hs.alert.show("Need value: combine any of [t,b,l,r] with a number less than 12")

@@ -74,6 +74,11 @@ end
 
 local dir = 'imgs/'
 
+function link(url)
+	print(string.format('open "%s"', url))
+	os.execute(string.format('open "%s"', url))
+end
+
 function AlfredFunctions()
 	local sometable = {
 		{
@@ -84,56 +89,66 @@ function AlfredFunctions()
 		},
 		{
 			["func_name"]="manualReload",
-			["description"]="Reloads Hammerspoon",
+			["description"]="Refresh Hammerspoon",
 			["icon"]=dir..'reload.png'
 		},
 		{
 			["func_name"]="hideFiles",
-			["description"]="Hides dot files",
+			["description"]="Hides all dot files",
 			["icon"]=dir..'hide.png'
 		},
 		{
 			["func_name"]="showFiles",
-			["description"]="Shows dot files",
+			["description"]="Shows all dot files",
 			["icon"]=dir..'show.png'
 		},
 		{
 			["func_name"]="blueutil",
-			["description"]="Toggle Bluetooth on/off",
+			["description"]="[on/off] Set Bluetooth",
 			["icon"]=dir..'bluetooth.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="ToggleInternetSharing",
-			["description"]="Toggle Internet Sharing, need off or on",
+			["description"]="[on/off] Set Internet Sharing",
 			["icon"]=dir..'internet.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="ToggleDND",
-			["description"]="Toggle Do No Disturb, need off or on",
+			["description"]="[on/off] Set Do No Disturb",
 			["icon"]=dir..'order.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="wintile",
-			["description"]="Manually Tile Windows (12 units)",
+			["description"]="[l#,r#,t#,b#] Tile Window (12 units - space delim)",
 			["icon"]=dir..'tile.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="learnXinY",
-			["description"]="Shortcut to lXinY, type language",
+			["description"]="[<language>] Open mini browser to XinY",
 			["icon"]=dir..'internet.png',
 			["arg"]='string'
 		},
 		{
 			["func_name"]="Load_Order",
-			["description"]="Reset List of Applications",
+			["description"]="Reset List of Open Applications",
 			["icon"]=dir..'order.png'
 		}
 	};
-	print('') -- blank line between tables
+
+	local links = Utility.readAll("./links.json")
+	local links_obj = Utility.readJSON(links)
+	for k,v in pairs(links_obj) do
+		table.insert(sometable, {
+				["func_name"]="l "..k,
+				["description"]="Link to: "..v,
+				["icon"]=dir..'order.png'
+			})
+	end
+
 	Utility.printJSON(sometable)
 end
 AlfredFunctions()

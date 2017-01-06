@@ -26,12 +26,12 @@ local Utility = require("./Modules/Utility")
 --   "currency": "\u20AC"
 -- }
 -- ]]
--- local str = [[
--- {
--- 	"song":"Bang Harder (ft. Shyheim & Ill By Instinct) in Lyrical Abrasion",
--- 	"artist":"Trails"
--- }
--- ]]
+local str = [[
+{
+	"song":"Bang Harder (ft. Shyheim & Ill By Instinct) in Lyrical Abrasion",
+	"artist":"Trails"
+}
+]]
 
 local obj = Utility.readJSON(str)
 
