@@ -126,17 +126,17 @@ end
 -- Common Window Movements
 --
 -- Arrow Key Options for Quad-Grid ("Tri")
-hs.hotkey.bind(Utility.mash, "Left", function()
+hs.hotkey.bind(Utility.mash_cmd, "Left", function()
  AdjustWindow(0, 0, 1/2, 1)
 end)
-hs.hotkey.bind(Utility.mash, "Right", function()
+hs.hotkey.bind(Utility.mash_cmd, "Right", function()
  AdjustWindow(1/2, 0, 1/2, 1)
 end)
 -- Mini Window Layout:
-hs.hotkey.bind(Utility.mash, "Up", function()
+hs.hotkey.bind(Utility.mash_cmd, "Up", function()
  AdjustWindow(1/2, 0, 1/2, 1/2)
 end)
-hs.hotkey.bind(Utility.mash, "Down", function()
+hs.hotkey.bind(Utility.mash_cmd, "Down", function()
  AdjustWindow(1/2, 1/2, 1/2, 1/2)
 end)
 

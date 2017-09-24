@@ -12,7 +12,9 @@ local Utility = {}
 -- Persistent data stored in:
 Utility.file = './Other/stats.md'
 
+Utility.mash_cmd = {"ctrl", "alt", "cmd"}
 Utility.mash = {"ctrl", "alt", "cmd"}
+-- Utility.mash = {"shift", "cmd"}
 Utility.scptPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/AppleScripts/'
 Utility.jsPath = os.getenv("HOME")..'/Developer/My-Programming-Sketchbook/JavaScript/Hammerspoon-js/'
 Utility.anybar = "1738"
