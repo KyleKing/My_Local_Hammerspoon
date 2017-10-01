@@ -27,8 +27,8 @@ function Load_Order()
   os.execute('osascript '..Utility.scptPath..file..'load_safari_quitter.scpt')
   preventBoomAudio()
 end
--- Dash should always be open and is really only closed when computer first opens
--- So run load order script to open set of helpers on HS startup
-if hs.appfinder.appFromName('Dash') == nill then
+
+-- Dash should always be open (or: 'Bartender 3'):
+if hs.appfinder.appFromName('Dash') == nil then
   Load_Order()
 end

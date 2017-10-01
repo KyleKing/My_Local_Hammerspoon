@@ -8,6 +8,8 @@ hs.hotkey.setLogLevel(0)
 initLog = hs.logger.new('LoadNotes')
 -- initLog.setLogLevel(5) -- [0,5]
 
+hs.application.enableSpotlightForNameSearches(true)
+
 -- Confirm complete HS installation
 if ( hs.ipc.cliStatus() == false ) then
 	hs.alert.show('Installing hammerspoon cli tool')
@@ -139,13 +141,52 @@ function AlfredFunctions()
 		}
 	};
 
+	--[[
+     Generate additional search keys based on JSON file
+		-- Download png image: https://stackoverflow.com/a/29654933/3219667
+		-- Better icon api: http://icons.better-idea.org
+	--]]
+
+	function create_fn(dir, fn, filetype)
+	  return dir..'favicons/'..fn..filetype
+	end
+
 	local links = Utility.readAll("./links.json")
 	local links_obj = Utility.readJSON(links)
-	for k,v in pairs(links_obj) do
+	local alfred_dir = '/Users/kyleking/Developer/My-Programming-Sketchbook/Alfred/user.workflow.D67DE9BE-47D0-4727-BF34-DFA7132EDCD1/'
+	for func_name,link in pairs(links_obj) do
+		-- Create filename based on JSON key
+		local fn = string.gsub(func_name, "%s+", "_")
+		local saved_fn = create_fn(dir, fn, '.png')
+		local full_fn = alfred_dir..saved_fn
+		-- Also check if the file was saved as a jpg
+		local saved_fn_jpg = create_fn(dir, fn, '.jpg')
+		-- local saved_fn_jpg = create_fn(dir, fn, '.gzip')
+		local full_fn_jpg = alfred_dir..saved_fn_jpg
+		-- Check if file is already downloaded
+		if not hs.fs.attributes(full_fn) and not hs.fs.attributes(full_fn_jpg) then
+			-- Request and download image:
+			local url = 'https://icons.better-idea.org/icon?url='..link..'&size=15..300..500'
+			local code,body,headers = hs.http.doRequest(url, 'GET')
+			if not body then error(code) end
+			-- Troubleshoot image type
+			-- if not string.find(headers['Content-Type'], "png") then
+			-- 	print('Error: header is not type png')
+			-- 	for key,value in pairs(headers) do
+			-- 		print(key..'  '..value)
+			-- 	end
+			-- 	saved_fn = saved_fn_jpg
+			-- 	full_fn = full_fn_jpg
+			-- end
+			local f = assert(io.open(full_fn, 'wb'))
+			f:write(body)
+			f:close()
+		end
+		-- Update object called by Alfred:
 		table.insert(sometable, {
-				["func_name"]="l "..k,
-				["description"]="Link to: "..v,
-				["icon"]=dir..'order.png'
+				["func_name"]="l "..func_name,
+				["description"]="Link to: "..link,
+				["icon"]=saved_fn
 			})
 	end
 

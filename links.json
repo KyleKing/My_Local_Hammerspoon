@@ -1,5 +1,5 @@
 {
-	"ter.ps/3dprinters": "https://umd.innovationcenter.makerbot.com/users/auth/shibboleth/callback",
+	"ter.ps_3dprinters": "https://umd.innovationcenter.makerbot.com/users/auth/shibboleth/callback",
 	"Facebook": "https://www.facebook.com/",
 	"ifttt": "https://ifttt.com/my_applets",
 	"PiAlarm-enter": "http://69.138.241.74/brief_sparta_enliven_upbeat_alchemy_woken_pulley_harelip_gwyn_unwind_sedge_tenspot/enter",
@@ -28,8 +28,24 @@
 	"LeanPub": "https://leanpub.com/user_dashboard/library",
 	"Bootstrap": "http://getbootstrap.com/components/",
 	"Mint": "https://wwws.mint.com/transaction.event",
-	"Recipes": "https://github.com/KyleKing/My-Programming-Sketchbook/tree/master/Recipes",
+	"Recipes": "http://kyleking.me/recipes",
 	"Bike Route": "https://www.google.com/maps/dir/9922+Shelburne+Terrace,+Gaithersburg,+MD+20878,+USA/16020+Industrial+Drive,+Gaithersburg,+MD+20877-1414,+USA/@39.1043503,-77.1999512,14.22z/am=t/data=!4m49!4m48!1m40!1m1!1s0x89b62d51098fe9f9:0x549d4dff99b27e44!2m2!1d-77.2018228!2d39.1165156!3m4!1m2!1d-77.2037723!2d39.1158515!3s0x89b62d50dddcc37d:0xa17d5cc2327bd8e9!3m4!1m2!1d-77.2062792!2d39.1077282!3s0x89b632a866870947:0x7b176f21f05943d3!3m4!1m2!1d-77.2007881!2d39.0976184!3s0x89b632b18d40c595:0xd40fc2979e98bff0!3m4!1m2!1d-77.1670534!2d39.0967135!3s0x89b7cd663db0ee9f:0x15195d54d429763d!3m4!1m2!1d-77.1648074!2d39.1066459!3s0x89b7d29dbe232f8d:0x96f1080590a2f183!3m4!1m2!1d-77.1653735!2d39.1114055!3s0x89b7d29be45c0ffd:0x21f93b53dfec5512!3m4!1m2!1d-77.1785241!2d39.1151837!3s0x89b7d2a49276e27d:0xcad7746744defefa!1m5!1m1!1s0x89b7d2b214c7e8c1:0xef30d1d992234cc9!2m2!1d-77.1901856!2d39.1195127!3e1",
 	"jobs": "https://docs.google.com/spreadsheets/d/19qBGbBEIy5cLzggzcOqy3ocup8mDuwVRWpzx2Qb8liE/edit?usp=drive_web",
-	"Commit StyleGuide": "https://gist.github.com/KyleKing/729914c4c88c8de8bcb11f7e978d24cc"
+	"Commit StyleGuide": "https://gist.github.com/KyleKing/729914c4c88c8de8bcb11f7e978d24cc",
+	"tv--seal team-cbs": "http://www.cbs.com/shows/seal-team/video/",
+	"tv--seal team-amazon": "https://smile.amazon.com/dp/B0761B6DZX",
+	"tv--24 legacy": "http://www.fox.com/24-legacy/full-episodes",
+	"tv--trevor noah": "http://www.cc.com/shows/the-daily-show-with-trevor-noah/full-episodes",
+	"tv--hulu": "http://www.hulu.com/watchlist",
+	"tv--hbo": "http://play.hbogo.com/?",
+	"tv--criminal minds": "http://www.cbs.com/shows/criminal_minds/",
+	"tv--west world": "http://play.hbogo.com/series/urn:hbo:series:GV7xwpQNK8MJfPwEAAAG_?camp=GoS7",
+	"tv--elementary": "http://www.cbs.com/shows/elementary/video/",
+	"tv--blacklist": "http://www.nbc.com/the-blacklist/episodes",
+	"tv--blacklist redemption": "https://www.nbc.com/the-blacklist-redemption/episodes",
+	"tv--man in the high castle": "https://smile.amazon.com/dp/B01IS2RDJ2/ref=dv_web_wtls_list_pr_1?sa-no-redirect=1",
+	"tv--last week tonight with john oliver": "https://play.hbogo.com/season/urn:hbo:season:GVo8b7whm6BKDr6sIAAAt",
+	"tv--justwatch watchlist": "https://www.justwatch.com/us/watchlist",
+	"tv--amazon watchlist": "https://smile.amazon.com/gp/video/watchlist/ref=sv_atv_7",
+	"tv--planet earth": "http://www.bbcamerica.com/shows/planet-earth-ii"
 }
