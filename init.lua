@@ -111,9 +111,14 @@ function AlfredFunctions()
 			["arg"]='string'
 		},
 		{
+			["func_name"]="sleep",
+			["description"]="Quit KYA and Sleep",
+			["icon"]=dir..'sleep.png'
+		},
+		{
 			["func_name"]="ToggleInternetSharing",
 			["description"]="[on/off] Set Internet Sharing",
-			["icon"]=dir..'internet.png',
+			["icon"]=dir..'internet-white.png',
 			["arg"]='string'
 		},
 		{
@@ -131,7 +136,7 @@ function AlfredFunctions()
 		{
 			["func_name"]="learnXinY",
 			["description"]="[<language>] Open mini browser to XinY",
-			["icon"]=dir..'internet.png',
+			["icon"]=dir..'internet-alt.png',
 			["arg"]='string'
 		},
 		{
@@ -161,26 +166,30 @@ function AlfredFunctions()
 		local full_fn = alfred_dir..saved_fn
 		-- Also check if the file was saved as a jpg
 		local saved_fn_jpg = create_fn(dir, fn, '.jpg')
-		-- local saved_fn_jpg = create_fn(dir, fn, '.gzip')
 		local full_fn_jpg = alfred_dir..saved_fn_jpg
 		-- Check if file is already downloaded
 		if not hs.fs.attributes(full_fn) and not hs.fs.attributes(full_fn_jpg) then
 			-- Request and download image:
 			local url = 'https://icons.better-idea.org/icon?url='..link..'&size=15..300..500'
 			local code,body,headers = hs.http.doRequest(url, 'GET')
-			if not body then error(code) end
-			-- Troubleshoot image type
-			-- if not string.find(headers['Content-Type'], "png") then
-			-- 	print('Error: header is not type png')
-			-- 	for key,value in pairs(headers) do
-			-- 		print(key..'  '..value)
-			-- 	end
-			-- 	saved_fn = saved_fn_jpg
-			-- 	full_fn = full_fn_jpg
-			-- end
-			local f = assert(io.open(full_fn, 'wb'))
-			f:write(body)
-			f:close()
+			if body then
+				-- Troubleshoot image type
+				-- if not string.find(headers['Content-Type'], "png") then
+				-- 	print('Error: header is not type png')
+				-- 	for key,value in pairs(headers) do
+				-- 		print(key..'  '..value)
+				-- 	end
+				-- 	saved_fn = saved_fn_jpg
+				-- 	full_fn = full_fn_jpg
+				-- end
+				local f = assert(io.open(full_fn, 'wb'))
+				f:write(body)
+				f:close()
+			else
+				-- Set to the fallback favicon
+				saved_fn = create_fn(dir, 'unknown', '.png')
+				-- print(string.format('\nError: icons.better-idea.org failed to return an icon for: "%s"', url))
+			end
 		end
 		-- Update object called by Alfred:
 		table.insert(sometable, {
