@@ -60,3 +60,16 @@ function ToggleInternetSharing(setting)
     hs.alert.show("Needs value, either 'on' or 'off'")
 	end
 end
+
+-- Set all Trackpad Gestures to on
+function ActivateTrackpadgestures()
+  -- DOES NOT WORK...
+  local file = 'Hammerspoon-scpt/compiled/ActivateTrackpadGestures.scpt'
+  os.execute('osascript '..Utility.scptPath..file)
+end
+
+-- Quit KYA and Sleep computer
+function sleep()
+  local file = 'Hammerspoon-scpt/compiled/sleep.scpt'
+  os.execute('osascript '..Utility.scptPath..file)
+end

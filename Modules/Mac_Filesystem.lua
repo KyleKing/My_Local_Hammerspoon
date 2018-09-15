@@ -55,11 +55,11 @@ local DotCMD1 = 'do shell script "defaults write com.apple.finder AppleShowAllFi
 local DotCMD2 = '; killall Finder /System/Library/CoreServices/Finder.app"'
 function hideFiles()
     ok,result = hs.applescript( DotCMD1..'NO'..DotCMD2 )
-    hs.alert.show("Files Hid, like blazing sun hides enemy")
+    hs.alert.show("Hiding Hidden Files")
 end
 function showFiles()
     ok,result = hs.applescript( DotCMD1..'YES'..DotCMD2 )
-    hs.alert.show("Files Shown, like bright moon deceives enemy")
+    hs.alert.show("Dot File and System Files Shown")
 end
 
 -- Automatically Recompile Applescript Files

@@ -60,7 +60,17 @@ function spotify_trackInfo(silent, startWatcher)
       displaySongInfo(song, artist, silent)
     end
   else
-    print('Spotify is closed, doing nothing.')
+    print('Spotify is closed, doing nothing?')
+  end
+end
+function itunes_trackInfo(silent, startWatcher)
+  if hs.itunes.isRunning() then
+    -- hs.itunes.displayCurrentTrack
+    local song = hs.itunes.getCurrentTrack()
+    local artist = hs.itunes.getCurrentArtist()
+    displaySongInfo(song, artist, silent)
+  else
+    print('iTunes is closed, doing nothing?')
   end
 end
 
@@ -167,13 +177,15 @@ end
 
 -- -- Demonstration of passing a function as an argument
 -- Note: do not include the () of the function
-function checkIfSpotifyOpen( func, funcAlt, silent, startWatcher )
+function checkIfSpotifyOpen(funcSpot, funciTunes, funcChrome, silent, startWatcher )
   if hs.spotify.isRunning() then
-    func(silent, startWatcher)
+    funcSpot(silent, startWatcher)
     -- show_track_timer = hs.timer.doAfter(1, function() spotify_trackInfo() end)
     -- show_track_timer = hs.timer.doAt(Utility.incSeconds(1), function() spotify_trackInfo() end)
+  elseif hs.itunes.isRunning() then
+    funciTunes(silent, startWatcher)
   elseif Utility.printOpenApps('Google Chrome') then
-    funcAlt(silent, startWatcher)
+    funcChrome(silent, startWatcher)
   else
     print('Nothing is open, doing nothing.')
   end
@@ -184,19 +196,19 @@ end
 --
 hs.hotkey.bind(Utility.mash, 'b', function ()
   Utility.AnyBarUpdate( "blue", true )
-  checkIfSpotifyOpen(hs.spotify.previous, streamkeys_previous)
+  checkIfSpotifyOpen(hs.spotify.previous, hs.itunes.previous, streamkeys_previous)
 end)
 hs.hotkey.bind(Utility.mash, 'n', function ()
   Utility.AnyBarUpdate( "yellow", true )
-  checkIfSpotifyOpen(hs.spotify.playpause, streamkeys_playpause)
+  checkIfSpotifyOpen(hs.spotify.playpause, hs.itunes.playpause, streamkeys_playpause)
 end)
 hs.hotkey.bind(Utility.mash, 'm', function ()
   Utility.AnyBarUpdate( "orange", true )
-  checkIfSpotifyOpen(hs.spotify.next, streamkeys_next)
+  checkIfSpotifyOpen(hs.spotify.next, hs.itunes.next, streamkeys_next)
 end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "j", function ()
-  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false, false)
+  checkIfSpotifyOpen(spotify_trackInfo, itunes_trackInfo, streamkeys_trackInfo, false, false)
 end)
 
 --
@@ -205,7 +217,7 @@ end)
 -- Display track/artist (and mute ads):
 hs.hotkey.bind(Utility.mash, "k", function ()
   Utility.change_file_line(Utility.file, 2, true)
-  checkIfSpotifyOpen(spotify_trackInfo, streamkeys_trackInfo, false, true)
+  checkIfSpotifyOpen(spotify_trackInfo, itunes_trackInfo, streamkeys_trackInfo, false, true)
   AlertUser('Set Loop to True: Ad checking will ensue')
 end)
 -- Display track/artist (and mute ads):
