@@ -13,13 +13,13 @@ initLog.d('   Internet Sharing')
 -- Toggle Bluetooth
 function blueutil(value)
   if value then
-    os.execute('/usr/local/bin/blueutil '..value)
-    local bashResult = Utility.capture('/usr/local/bin/blueutil status', false)
+    os.execute('/usr/local/bin/blueutil -p '..value)
+    local bashResult = Utility.capture('/usr/local/bin/blueutil', false)
 
     -- Display result
     print(bashResult)
-    AlertUser('Bluetooth '..bashResult)
-    if bashResult == 'Status: on' then
+    AlertUser('Bluetooth is: '..bashResult)
+    if bashResult == 'Power: 1 Discoverable: 0' then
     	Utility.AnyBarUpdate( "blue", Utility.anybar1 )
     else
     	Utility.AnyBarUpdate( "purple", Utility.anybar1 )
