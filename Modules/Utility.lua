@@ -216,26 +216,27 @@ end
 ------------------------
 
 function Utility.AnyBarUpdate( color, port )
-	-- -- Applescript version:
-	-- local script = 'tell application "AnyBar" to set image name to "'..color..'"'
-	-- local succeed, result, raw = hs.osascript.applescript(script)
-	-- -- tell application "AnyBar" to set current to get image name as Unicode text
-	-- -- display notification current
+	print("ANYBAR IS DISABLED")
+	-- -- -- Applescript version:
+	-- -- local script = 'tell application "AnyBar" to set image name to "'..color..'"'
+	-- -- local succeed, result, raw = hs.osascript.applescript(script)
+	-- -- -- tell application "AnyBar" to set current to get image name as Unicode text
+	-- -- -- display notification current
 
-	-- local color = "green"
-	if type(port) == 'string' then
-		-- -- Make sure anybar on that port is open:
-		-- -- local portNum = Utility.str_to_num(port)
-		-- -- Opens a new port, actually only call once in init.lua
-		-- print('ANYBAR_PORT='..port..' open -na AnyBar')
-		-- os.execute('ANYBAR_PORT='..port..' open -na AnyBar')
-	else
-		port = Utility.anybar
-	end
-	-- print(port)
-	local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
-	local JSparsedResult = Utility.captureNEW(bash_script)
-	-- print(bash_script)
+	-- -- local color = "green"
+	-- if type(port) == 'string' then
+	-- 	-- -- Make sure anybar on that port is open:
+	-- 	-- -- local portNum = Utility.str_to_num(port)
+	-- 	-- -- Opens a new port, actually only call once in init.lua
+	-- 	-- print('ANYBAR_PORT='..port..' open -na AnyBar')
+	-- 	-- os.execute('ANYBAR_PORT='..port..' open -na AnyBar')
+	-- else
+	-- 	port = Utility.anybar
+	-- end
+	-- -- print(port)
+	-- local bash_script = "/usr/local/bin/node "..Utility.jsPath..'snippetAnyBar.js "'..color..'" '..port.." 2>&1"
+	-- local JSparsedResult = Utility.captureNEW(bash_script)
+	-- -- print(bash_script)
 end
 
 ------------------------

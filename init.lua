@@ -31,44 +31,44 @@ dofile("./Modules/Mac_Sound.lua")
 local Mac = require("./Modules/MacUtilities")
 local WIP = require("./Other/z_In Progress")
 
-----------------------------------------------------
--- Any Bar
-----------------------------------------------------
+-- ----------------------------------------------------
+-- -- Any Bar (Update 11Mar2019 - disabled)
+-- ----------------------------------------------------
 
--- -- Get current color of AnyBar
--- -- Wanted to see if open, but opens up the app anyway
--- local success, color, raw = hs.applescript([[
--- 	tell application "AnyBar" to set current to get image name as Unicode text
--- 	return current
--- ]])
+-- -- -- Get current color of AnyBar
+-- -- -- Wanted to see if open, but opens up the app anyway
+-- -- local success, color, raw = hs.applescript([[
+-- -- 	tell application "AnyBar" to set current to get image name as Unicode text
+-- -- 	return current
+-- -- ]])
 
--- -- Previous write to file approach:
--- -- local tContents = Utility.read_file(Utility.file, 'l')
--- -- if tContents[6] == 'false' then
+-- -- -- Previous write to file approach:
+-- -- -- local tContents = Utility.read_file(Utility.file, 'l')
+-- -- -- if tContents[6] == 'false' then
 
--- Open AnyBar, by checking for active processes:
-local result = Utility.captureNEW("ps aux | grep -i '[a]nybar'")
-if result == '' then
-	os.execute('open /Users/kyleking/Applications/AnyBar.app')
-	os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
-	os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
-	os.execute('ANYBAR_PORT='..Utility.anybar3..' open -na AnyBar')
-	-- -- Utility.change_file_line(Utility.file, 6, true)
-else
-	Utility.AnyBarUpdate( "black", true )
-	-- -- Utility.change_file_line(Utility.file, 6, false)
-end
--- Check Do Not Disturb Status:
-local tContents = Utility.read_file(Utility.file, 'l')
-if tContents[8] == 'on' then
-  Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
-else
-  Utility.AnyBarUpdate( "black", Utility.anybar3 )
-end
+-- -- Open AnyBar, by checking for active processes:
+-- local result = Utility.captureNEW("ps aux | grep -i '[a]nybar'")
+-- if result == '' then
+-- 	os.execute('open /Users/kyleking/Applications/AnyBar.app')
+-- 	os.execute('ANYBAR_PORT='..Utility.anybar1..' open -na AnyBar')
+-- 	os.execute('ANYBAR_PORT='..Utility.anybar2..' open -na AnyBar')
+-- 	os.execute('ANYBAR_PORT='..Utility.anybar3..' open -na AnyBar')
+-- 	-- -- Utility.change_file_line(Utility.file, 6, true)
+-- else
+-- 	Utility.AnyBarUpdate( "black", true )
+-- 	-- -- Utility.change_file_line(Utility.file, 6, false)
+-- end
+-- -- Check Do Not Disturb Status:
+-- local tContents = Utility.read_file(Utility.file, 'l')
+-- if tContents[8] == 'on' then
+--   Utility.AnyBarUpdate( "exclamation", Utility.anybar3 )
+-- else
+--   Utility.AnyBarUpdate( "black", Utility.anybar3 )
+-- end
 
--- Kill AnyBar if needed:
--- -- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
--- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")
+-- -- Kill AnyBar if needed:
+-- -- -- Setup sudoers: https://github.com/Hammerspoon/hammerspoon/issues/707#issuecomment-168329103
+-- -- os.execute("sudo kill $(ps aux | grep -i '[a]nybar' | awk '{print $2}')")
 
 ----------------------------------------------------
 -- Custom Alfred Triggers
