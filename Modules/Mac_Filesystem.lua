@@ -74,12 +74,14 @@ function reloadApplescript(files)
     if doReload then
         -- FIXME: Currently opens Safari whenever run?
         hs.notify.new({title="HS", informativeText='Re-Compiled Applescript'}):send()
+
         -- y = os.execute('cd  '..Utility.scptPath..'; bash compile.sh')
         -- print('cd  '..Utility.scptPath..'; bash compile.sh')
-        -- os.execute('cd  '..Utility.scptPath..'; python runScriptFrom.py')
-        -- print('cd  '..Utility.scptPath..'; python runScriptFrom.py')
+
+        -- Run compile.sh from python:
         local result = Utility.captureNEW( 'cd  '..Utility.scptPath..'; python runScriptFrom.py' )
         print('\nCompiling Applescript result:\n'..result..'\n')
     end
 end
+-- FIXME: This isn't running?
 hs.pathwatcher.new(Utility.scptPath, reloadApplescript):start()
