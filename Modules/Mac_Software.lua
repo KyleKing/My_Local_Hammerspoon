@@ -12,5 +12,4 @@ initLog.d('   Load Order')
 function Load_Order()
   local file = 'Hammerspoon-scpt/compiled/'
   os.execute('osascript '..Utility.scptPath..file..'load_order.scpt')
-  os.execute('osascript '..Utility.scptPath..file..'load_safari_quitter.scpt')
 end

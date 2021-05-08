@@ -18,13 +18,6 @@ function Tiling.MoveWindow ( WidthOffset, HeightOffset, WidthModifier, HeightMod
 	local screen = win:screen()
 	local max = screen:frame()
 
-	-- TESTING
-	-- local a = tostring(win:size().h/max.h)
-	-- local b = tostring(win:size().w/max.w)
-	-- hs.alert.show(a..' '..b)
-	-- local v = tostring(f.x)
-	-- hs.alert.show(v)
-
 	-- Determine start coordinates
 	if (WidthOffset == 0) then
 		f.x = max.x

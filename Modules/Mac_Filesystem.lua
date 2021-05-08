@@ -30,13 +30,10 @@ function reloadConfig(files)
 end
 hs.pathwatcher.new(os.getenv("HOME").."/.hammerspoon/", reloadConfig):start()
 
-NotifyUser('Fresh Start', 'HS Config Loaded')
-
 --------------------------------------------------
--- Other Filesystem utilities
+-- Show or Hide Dot Files
 --------------------------------------------------
 
--- Show or hide dot files
 local DotCMD1 = 'do shell script "defaults write com.apple.finder AppleShowAllFiles '
 local DotCMD2 = '; killall Finder /System/Library/CoreServices/Finder.app"'
 function hideFiles()
@@ -47,3 +44,22 @@ function showFiles()
     ok,result = hs.applescript( DotCMD1..'YES'..DotCMD2 )
     hs.alert.show("Dot File and System Files Shown")
 end
+
+--------------------------------------------------
+-- Automatically Recompile Applescript Files
+--------------------------------------------------
+
+function reloadApplescript(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-12) == ".applescript" then
+            doReload = true
+        end
+    end
+    print('(reloadApplescript) doReload: '..tostring(doReload))
+    if doReload then
+        y = os.execute('cd  '..Utility.scptPath..'; bash compile.sh')
+        print('Reload Result='..y)
+    end
+end
+hs.pathwatcher.new(Utility.scptPath, reloadApplescript):start()

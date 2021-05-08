@@ -34,12 +34,6 @@ end
 function AlfredFunctions()
 	local sometable = {
 		{
-			["func_name"]="AlertUser",
-			["description"]="Custom Notification",
-			["icon"]=dir..'alert.png',
-			["arg"]='string'
-		},
-		{
 			["func_name"]="manualReload",
 			["description"]="Refresh Hammerspoon",
 			["icon"]=dir..'reload.png'
@@ -55,38 +49,9 @@ function AlfredFunctions()
 			["icon"]=dir..'show.png'
 		},
 		{
-			["func_name"]="blueutil",
-			["description"]="[on/off] Set Bluetooth",
-			["icon"]=dir..'bluetooth.png',
-			["arg"]='string'
-		},
-		{
-			["func_name"]="sleep",
-			["description"]="Quit KYA and Sleep",
-			["icon"]=dir..'sleep.png'
-		},
-		{
-			["func_name"]="ToggleInternetSharing",
-			["description"]="[on/off] Set Internet Sharing",
-			["icon"]=dir..'internet-white.png',
-			["arg"]='string'
-		},
-		{
-			["func_name"]="ToggleDND",
-			["description"]="[on/off] Set Do No Disturb",
-			["icon"]=dir..'order.png',
-			["arg"]='string'
-		},
-		{
 			["func_name"]="wintile",
 			["description"]="[l#,r#,t#,b#] Tile Window (12 units - space delim)",
 			["icon"]=dir..'tile.png',
-			["arg"]='string'
-		},
-		{
-			["func_name"]="learnXinY",
-			["description"]="[<language>] Open mini browser to XinY",
-			["icon"]=dir..'internet-alt.png',
 			["arg"]='string'
 		},
 		{
@@ -95,7 +60,6 @@ function AlfredFunctions()
 			["icon"]=dir..'order.png'
 		}
 	};
-
 	Utility.printJSON(sometable)
 end
 AlfredFunctions()
