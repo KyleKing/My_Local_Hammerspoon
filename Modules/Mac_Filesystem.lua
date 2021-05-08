@@ -10,20 +10,6 @@ initLog.d('   Compile Applescript Files')
 -- Reload Hammerspoon Configuration
 --------------------------------------------------
 
--- Make sure persistent data file is present
-if Utility.file_exists(Utility.file) then
-    initLog.d(Utility.file..' exists and will not be overwritten')
-else
-    -- Source: http://stackoverflow.com/a/16368141/3219667
-    infile = io.open(Utility.file..".back", "r")
-    instr = infile:read("*a")
-    infile:close()
-
-    outfile = io.open(Utility.file, "w")
-    outfile:write(instr)
-    outfile:close()
-end
-
 -- Reload Configuration with Shortcut
 function manualReload()
   hs.reload()
@@ -61,27 +47,3 @@ function showFiles()
     ok,result = hs.applescript( DotCMD1..'YES'..DotCMD2 )
     hs.alert.show("Dot File and System Files Shown")
 end
-
--- Automatically Recompile Applescript Files
-function reloadApplescript(files)
-    doReload = false
-    for _,file in pairs(files) do
-        if file:sub(-12) == ".applescript" then
-            doReload = true
-        end
-    end
-    print('(reloadApplescript) doReload: '..tostring(doReload))
-    if doReload then
-        -- FIXME: Currently opens Safari whenever run?
-        hs.notify.new({title="HS", informativeText='Re-Compiled Applescript'}):send()
-
-        -- y = os.execute('cd  '..Utility.scptPath..'; bash compile.sh')
-        -- print('cd  '..Utility.scptPath..'; bash compile.sh')
-
-        -- Run compile.sh from python:
-        local result = Utility.captureNEW( 'cd  '..Utility.scptPath..'; python runScriptFrom.py' )
-        print('\nCompiling Applescript result:\n'..result..'\n')
-    end
-end
--- FIXME: This isn't running?
-hs.pathwatcher.new(Utility.scptPath, reloadApplescript):start()

@@ -140,7 +140,7 @@ hs.hotkey.bind(Utility.mash_cmd, "Down", function()
  AdjustWindow(1/2, 1/2, 1/2, 1/2)
 end)
 
--- Legacy Mjolnir Commands
+-- Common Overlapping Grid Commands
 hs.hotkey.bind(Utility.mash, "y", function()
  AdjustWindow(0, 0, 11/12, 1)
 end)
