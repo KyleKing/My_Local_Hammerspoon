@@ -1,6 +1,0 @@
-If http://icons.better-idea.org/ is still offline...
-
-http://imgorigin.icons8.com
-https://www.google.com/s2/favicons?domain=DOMAINLINKEHERE
-
-See self-hosted: https://github.com/mat/besticon
