@@ -21,6 +21,15 @@ dofile("./Modules/Mac_Filesystem.lua")
 dofile("./Modules/Mac_Software.lua")
 
 ----------------------------------------------------
+-- Keyboard Hacks
+----------------------------------------------------
+
+-- Make End consistent btwn Win & Mac. Go to end of line
+hs.hotkey.bind(Utility.mash_cmd, "End", function()
+    hs.eventtap.keyStroke(Utility.mash_cmd, "Right")
+end)
+
+----------------------------------------------------
 -- Custom Alfred Triggers
 ----------------------------------------------------
 
