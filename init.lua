@@ -28,6 +28,10 @@ dofile("./Modules/Mac_Software.lua")
 hs.hotkey.bind(Utility.mash_cmd, "End", function()
     hs.eventtap.keyStroke(Utility.mash_cmd, "Right")
 end)
+-- Make Home consistent. Go to start of line
+hs.hotkey.bind(Utility.mash_cmd, "Home", function()
+    hs.eventtap.keyStroke(Utility.mash_cmd, "Left")
+end)
 
 ----------------------------------------------------
 -- Custom Alfred Triggers
