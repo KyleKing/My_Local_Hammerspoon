@@ -115,33 +115,33 @@ function wintile(raw)
 	end
 end
 
---
--- Common Window Movements
---
--- Arrow Key Options for Quad-Grid ("Tri")
-hs.hotkey.bind(Utility.mash_cmd, "Left", function()
- AdjustWindow(0, 0, 1/2, 1)
-end)
-hs.hotkey.bind(Utility.mash_cmd, "Right", function()
- AdjustWindow(1/2, 0, 1/2, 1)
-end)
--- Mini Window Layout:
-hs.hotkey.bind(Utility.mash_cmd, "Up", function()
- AdjustWindow(1/2, 0, 1/2, 1/2)
-end)
-hs.hotkey.bind(Utility.mash_cmd, "Down", function()
- AdjustWindow(1/2, 1/2, 1/2, 1/2)
-end)
+-- --
+-- -- Common Window Movements
+-- --
+-- -- Arrow Key Options for Quad-Grid ("Tri")
+-- hs.hotkey.bind(Utility.mash_cmd, "Left", function()
+--  AdjustWindow(0, 0, 1/2, 1)
+-- end)
+-- hs.hotkey.bind(Utility.mash_cmd, "Right", function()
+--  AdjustWindow(1/2, 0, 1/2, 1)
+-- end)
+-- -- Mini Window Layout:
+-- hs.hotkey.bind(Utility.mash_cmd, "Up", function()
+--  AdjustWindow(1/2, 0, 1/2, 1/2)
+-- end)
+-- hs.hotkey.bind(Utility.mash_cmd, "Down", function()
+--  AdjustWindow(1/2, 1/2, 1/2, 1/2)
+-- end)
 
--- Common Overlapping Grid Commands
-hs.hotkey.bind(Utility.mash, "y", function()
- AdjustWindow(0, 0, 11/12, 1)
-end)
-hs.hotkey.bind(Utility.mash, "u", function()
- AdjustWindow(0, 0, 1, 1)
-end)
-hs.hotkey.bind(Utility.mash, "i", function()
- AdjustWindow(2/12, 0, 10/12, 1)
-end)
+-- -- Common Overlapping Grid Commands
+-- hs.hotkey.bind(Utility.mash, "y", function()
+--  AdjustWindow(0, 0, 11/12, 1)
+-- end)
+-- hs.hotkey.bind(Utility.mash, "u", function()
+--  AdjustWindow(0, 0, 1, 1)
+-- end)
+-- hs.hotkey.bind(Utility.mash, "i", function()
+--  AdjustWindow(2/12, 0, 10/12, 1)
+-- end)
 
 return Tiling

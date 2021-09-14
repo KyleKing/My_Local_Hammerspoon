@@ -16,7 +16,7 @@ end
 
 -- Loaded files and functions:
 local Utility = require("./Modules/Utility")
-local Tiling = require("./Modules/windowTiling")
+-- local Tiling = require("./Modules/windowTiling")  -- See Hookshot/Rectangle
 dofile("./Modules/Mac_Filesystem.lua")
 dofile("./Modules/Mac_Software.lua")
 
